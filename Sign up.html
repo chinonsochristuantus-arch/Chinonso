@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richie Store — Sign Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#F68B1E;
+    --orange-dark:#E17A0E;
+    --navy:#0F1724;
+    --gray-900:#1A1D22;
+    --gray-600:#6B7280;
+    --gray-300:#E1E4E8;
+    --gray-100:#F7F8FA;
+    --white:#FFFFFF;
+    --error:#D64545;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--gray-100);
+    color:var(--gray-900);
+    min-height:100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    background:var(--white);
+    border-bottom:1px solid var(--gray-300);
+    padding:16px 32px;
+    display:flex;
+    align-items:center;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--gray-900);
+    text-decoration:none;
+  }
+
+  .logo .mark{
+    width:30px;
+    height:30px;
+    background:var(--orange);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--white);
+    font-size:16px;
+    font-weight:700;
+  }
+
+  .logo .store{ color:var(--orange); }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{
+    display:flex;
+    min-height:calc(100vh - 63px);
+  }
+
+  .promo{
+    flex:0 0 44%;
+    background:linear-gradient(160deg, var(--orange) 0%, var(--orange-dark) 100%);
+    color:var(--white);
+    padding:64px 56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .promo::before{
+    content:"";
+    position:absolute;
+    width:420px; height:420px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-140px; right:-140px;
+  }
+
+  .promo::after{
+    content:"";
+    position:absolute;
+    width:260px; height:260px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.07);
+    bottom:-100px; left:-80px;
+  }
+
+  .promo-badge{
+    display:inline-flex;
+    align-items:center;
+    background:rgba(255,255,255,0.18);
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.3px;
+    width:fit-content;
+    margin-bottom:24px;
+  }
+
+  .promo h1{
+    font-family:'Poppins', sans-serif;
+    font-size:clamp(28px,3vw,38px);
+    line-height:1.25;
+    font-weight:700;
+    margin-bottom:16px;
+    position:relative;
+  }
+
+  .promo p{
+    font-size:15.5px;
+    line-height:1.6;
+    color:rgba(255,255,255,0.9);
+    max-width:36ch;
+    margin-bottom:36px;
+    position:relative;
+  }
+
+  .promo-features{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    position:relative;
+  }
+
+  .promo-features li{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14.5px;
+    font-weight:500;
+  }
+
+  .promo-features .icon{
+    width:32px; height:32px;
+    background:rgba(255,255,255,0.2);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:15px;
+  }
+
+  /* ---------- FORM SIDE ---------- */
+  .form-side{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 24px;
+  }
+
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--white);
+    border:1px solid var(--gray-300);
+    border-radius:10px;
+    padding:36px 34px;
+    box-shadow:0 2px 6px rgba(15,23,36,0.04);
+  }
+
+  .card h2{
+    font-family:'Poppins', sans-serif;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+
+  .card .sub{
+    font-size:13.5px;
+    color:var(--gray-600);
+    margin-bottom:26px;
+  }
+
+  .card .sub a{ color:var(--orange); text-decoration:none; font-weight:600; }
+  .card .sub a:hover{ text-decoration:underline; }
+
+  form{ display:flex; flex-direction:column; gap:16px; }
+
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gray-900);
+    margin-bottom:6px;
+  }
+
+  .field input{
+    width:100%;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    padding:11px 13px;
+    border:1.5px solid var(--gray-300);
+    border-radius:6px;
+    background:var(--white);
+    color:var(--gray-900);
+    outline:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .field input::placeholder{ color:#9AA1AC; }
+
+  .field input:focus{
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(246,139,30,0.15);
+  }
+
+  .field.error input{ border-color:var(--error); }
+  .field .err-msg{
+    font-size:12px;
+    color:var(--error);
+    margin-top:5px;
+    min-height:14px;
+    display:none;
+  }
+  .field.error .err-msg{ display:block; }
+
+  .pw-wrap{ position:relative; }
+  .pw-toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    background:none;
+    border:none;
+    font-size:12px;
+    font-weight:600;
+    color:var(--gray-600);
+    cursor:pointer;
+    padding:4px;
+  }
+  .pw-toggle:hover{ color:var(--orange); }
+
+  .terms{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    font-size:12.5px;
+    color:var(--gray-600);
+    line-height:1.5;
+    margin-top:2px;
+  }
+
+  .terms input{
+    margin-top:2px;
+    width:15px; height:15px;
+    accent-color:var(--orange);
+    flex-shrink:0;
+  }
+
+  .terms a{ color:var(--gray-900); text-decoration:underline; }
+
+  button.submit{
+    margin-top:6px;
+    background:var(--orange);
+    color:var(--white);
+    border:none;
+    border-radius:6px;
+    padding:13px 16px;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition: background .15s ease;
+  }
+
+  button.submit:hover{ background:var(--orange-dark); }
+  button.submit:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:20px 0 4px;
+    color:var(--gray-600);
+    font-size:12px;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--gray-300);
+  }
+
+  .social-row{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .social-btn{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:10px;
+    border:1.5px solid var(--gray-300);
+    border-radius:6px;
+    background:var(--white);
+    font-size:13px;
+    font-weight:500;
+    color:var(--gray-900);
+    cursor:pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+
+  .social-btn:hover{ border-color:var(--gray-900); background:var(--gray-100); }
+
+  .footnote{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--gray-600);
+    margin-top:20px;
+  }
+
+  /* ---------- SUCCESS ---------- */
+  .success{
+    display:none;
+    text-align:center;
+    padding:8px 0 4px;
+  }
+  .success.show{ display:block; animation: pop .3s ease; }
+
+  @keyframes pop{
+    0%{ opacity:0; transform:scale(0.92); }
+    100%{ opacity:1; transform:scale(1); }
+  }
+
+  .success-check{
+    width:64px; height:64px;
+    margin:0 auto 20px;
+    background:#E9F8EF;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .success-check svg{ width:28px; height:28px; }
+
+  .success h2{
+    font-family:'Poppins', sans-serif;
+    font-size:20px;
+    margin-bottom:8px;
+  }
+
+  .success p{
+    font-size:13.5px;
+    color:var(--gray-600);
+    line-height:1.6;
+    margin-bottom:22px;
+  }
+
+  .success .cta{
+    display:inline-block;
+    background:var(--orange);
+    color:var(--white);
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:6px;
+  }
+  .success .cta:hover{ background:var(--orange-dark); }
+
+  @media (max-width: 900px){
+    .wrap{ flex-direction:column; }
+    .promo{ flex:none; padding:40px 28px; }
+    .promo::before, .promo::after{ display:none; }
+    .form-side{ padding:36px 20px 56px; }
+  }
+
+  @media (max-width: 480px){
+    .topbar{ padding:12px 16px; }
+    .promo{ padding:32px 20px; }
+    .form-side{ padding:28px 12px 44px; }
+    .card{ padding:28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="#" class="logo">
+    <span class="mark">R</span>
+    Richie<span class="store">Store</span>
+  </a>
+</div>
+
+<div class="wrap">
+
+  <!-- LEFT: PROMO PANEL -->
+  <section class="promo">
+    <span class="promo-badge">🎉 New members save more</span>
+    <h1>Sign up and unlock deals across every category.</h1>
+    <p>Create your free Richie Store account to track orders, save favorites, and check out faster every time.</p>
+
+    <ul class="promo-features">
+      <li><span class="icon">🚚</span> Free delivery on your first order</li>
+      <li><span class="icon">🏷️</span> Member-only prices, every day</li>
+      <li><span class="icon">⚡</span> Early access to flash sales</li>
+      <li><span class="icon">↩️</span> Easy 7-day returns</li>
+    </ul>
+  </section>
+
+  <!-- RIGHT: FORM PANEL -->
+  <section class="form-side">
+    <div class="card">
+
+      <div id="formView">
+        <h2>Create your account</h2>
+        <p class="sub">Already have an account? <a href="Login.html" id="">Log in</a></p>
+
+        <form id="signupForm" novalidate>
+          <div class="field" id="field-name">
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Richie Adams" autocomplete="name">
+            <span class="err-msg">Please enter your full name.</span>
+          </div>
+
+          <div class="field" id="field-email">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+            <span class="err-msg">Enter a valid email address.</span>
+          </div>
+
+          <div class="field" id="field-phone">
+            <label for="phone">Mobile number</label>
+            <input type="tel" id="phone" name="phone" placeholder="080 000 0000" autocomplete="tel">
+            <span class="err-msg">Enter a valid phone number.</span>
+          </div>
+
+          <div class="field" id="field-password">
+            <label for="password">Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="password" name="password" placeholder="At least 8 characters" autocomplete="new-password">
+              <button type="button" class="pw-toggle" data-target="password">SHOW</button>
+            </div>
+            <span class="err-msg">Use at least 8 characters.</span>
+          </div>
+
+          <div class="field" id="field-confirm">
+            <label for="confirm">Confirm password</label>
+            <div class="pw-wrap">
+              <input type="password" id="confirm" name="confirm" placeholder="Re-enter password" autocomplete="new-password">
+              <button type="button" class="pw-toggle" data-target="confirm">SHOW</button>
+            </div>
+            <span class="err-msg">Passwords don't match.</span>
+          </div>
+
+          <label class="terms">
+            <input type="checkbox" id="agree" name="agree">
+            <span>I agree to Richie Store's <a href="#">Terms of Use</a> and <a href="#">Privacy Notice</a>.</span>
+          </label>
+          <span class="err-msg" id="agree-err" style="display:none;">Please accept the terms to continue.</span>
+
+          <button type="submit" class="submit">SIGN UP</button>
+        </form>
+
+        <div class="divider">or sign up with</div>
+        <div class="social-row">
+          <button type="button" class="social-btn">Google</button>
+          <button type="button" class="social-btn">Facebook</button>
+        </div>
+
+        <p class="footnote">By signing up, you confirm you're 18 or older.</p>
+      </div>
+
+      <div class="success" id="successView">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Welcome, <span id="successName">friend</span>!</h2>
+        <p>Your Richie Store account is ready. We've sent a confirmation to <span id="successEmail">your inbox</span>.</p>
+        <a href="Main page.html" class="cta">Start shopping</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  const form = document.getElementById('signupForm');
+  const fields = {
+    fullName: { el: document.getElementById('fullName'), wrap: document.getElementById('field-name') },
+    email: { el: document.getElementById('email'), wrap: document.getElementById('field-email') },
+    phone: { el: document.getElementById('phone'), wrap: document.getElementById('field-phone') },
+    password: { el: document.getElementById('password'), wrap: document.getElementById('field-password') },
+    confirm: { el: document.getElementById('confirm'), wrap: document.getElementById('field-confirm') },
+  };
+  const agree = document.getElementById('agree');
+  const agreeErr = document.getElementById('agree-err');
+
+  function setError(field, hasError){
+    field.wrap.classList.toggle('error', hasError);
+  }
+
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function validPhone(v){ return /^[0-9+\s-]{7,15}$/.test(v.trim()); }
+
+  Object.values(fields).forEach(f => {
+    f.el.addEventListener('input', () => setError(f, false));
+  });
+  agree.addEventListener('change', () => { if(agree.checked) agreeErr.style.display = 'none'; });
+
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const isPw = target.type === 'password';
+      target.type = isPw ? 'text' : 'password';
+      btn.textContent = isPw ? 'HIDE' : 'SHOW';
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let ok = true;
+
+    if(fields.fullName.el.value.trim().length < 2){ setError(fields.fullName, true); ok = false; }
+    else setError(fields.fullName, false);
+
+    if(!validEmail(fields.email.el.value.trim())){ setError(fields.email, true); ok = false; }
+    else setError(fields.email, false);
+
+    if(!validPhone(fields.phone.el.value)){ setError(fields.phone, true); ok = false; }
+    else setError(fields.phone, false);
+
+    if(fields.password.el.value.length < 8){ setError(fields.password, true); ok = false; }
+    else setError(fields.password, false);
+
+    if(fields.confirm.el.value !== fields.password.el.value || fields.confirm.el.value.length === 0){
+      setError(fields.confirm, true); ok = false;
+    } else setError(fields.confirm, false);
+
+    if(!agree.checked){ agreeErr.style.display = 'block'; ok = false; }
+    else agreeErr.style.display = 'none';
+
+    if(!ok) return;
+
+    const firstName = fields.fullName.el.value.trim().split(' ')[0];
+    document.getElementById('successName').textContent = firstName;
+    document.getElementById('successEmail').textContent = fields.email.el.value.trim();
+
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').classList.add('show');
+  });
+
+  document.getElementById('gotoSignin').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('This is a demo signup page — sign-in would live at your own /login route.');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f1f1f2;
+}
+
+/* TOP BAR */
+.topbar {
+    background: #000;
+    color: white;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    
+
+}
+
+.topbar a {
+    text-decoration: none;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    justify-content: space-between;
+    border-radius: 10px;
+    
+
+}
+
+.ttt {
+    font-size: 40px;
+}
+
+.logo {
+    color: #f68b1e;
+    font-weight: 700;
+    font-size: 40px;
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    list-style: none;
+}
+
+.sea {
+    width: 500px;
+    height: 30px;
+}
+
+button {
+    height: 30px;
+    cursor: pointer;
+}
+
+.search input,
+.Search input {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.search button,
+.Search button {
+    background: #f68b1e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
+
+.actions a {
+    text-decoration: none;
+    color: #222;
+    margin-left: 15px;
+    font-size: 25px;
+}
+
+/* LAYOUT */
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 200px;
+    gap: 10px;
+    padding: 10px 20px;
+}
+
+/* SIDEBAR */
+aside {
+    background: #fff;
+    border-radius: 10px;
+
+}
+aside:hover{
+    transform: translateY(-4px);
+    transition: .0s;
+    
+    
+
+}
+
+aside li {
+    padding: 20px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+aside a {
+    text-decoration: none;
+    color: #333;
+}
+
+aside li.active-cat {
+    background: #fff3e6;
+}
+
+aside li.active-cat a {
+    color: #f68b1e;
+    font-weight: 700;
+}
+
+.ggg {
+    font-size: 80px;
+    color: white;
+    padding-top: 90px;
+    padding-left: 40px;
+
+}
+
+.bbb {
+    font-size: 95px;
+    color:white;
+    padding-top: 60px;
+    padding-left: 40px;
+}
+
+.ppp {
+    font-size: 40px;
+    color:white;
+    padding-top: 60pxpx;
+    padding-left: 40px;
+
+
+
+}
+
+.bdb {
+    background-color: black;
+    color: white;
+    width: 130px;
+    height: 35px;
+
+}
+
+/* HERO */
+.hero {
+    background-image: url(ChatGPT2.jpg), linear-gradient(135deg, #f6a11e, #f14b1e);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    width: auto;
+    height: 700px;
+    border-radius: 15px;
+
+}
+
+.hero-content {
+    position: absolute;
+    top: 10%;
+    left: 30px;
+    color: white;
+
+}
+
+.hero-button {
+    background: black;
+    color: white;
+    padding: 20px;
+    border: none;
+}
+
+/* RIGHT BOX */
+.right-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 23px;
+    padding-top: 25px;
+    
+
+
+}
+
+.box {
+    background: #fff;
+    padding: 20px 15px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+/* FLASH */
+.flash {
+    margin: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.flash-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flash-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: flex-start;
+    justify-content: space-between;
+}
+
+.card {
+    width: 150px;
+    background: #fff;
+    text-align: center;
+    transition: .3s;
+}
+
+.card.hidden {
+    display: none;
+}
+
+.card img {
+    width: 100%;
+
+
+}
+
+.card-content h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: #ff9900;
+    margin: 10px 0;
+}
+
+.price {
+    color: #ff9900;
+    margin: 10px 0;
+}
+
+.old-price {
+    color: gray;
+    text-decoration: line-through;
+    margin-bottom: 15px;
+}
+
+.yyy {
+    color: #eee;
+}
+
+span {
+    padding-left: 10px;
+}
+
+.zzz {
+    color: white;
+}
+
+.xxx {
+    color: white;
+}
+
+.ttt {
+    color: blue;
+}
+
+.add-cart:hover {
+    transform: translateY(-5px);
+    transition: .3s;
+    
+    
+
+}
+
+.bdb:hover {
+    transform: translateY(-5px)
+}
+
+.box:hover {
+    transform: translateY(-5px);
+    transition: .3s;
+    
+
+}
+.cct:hover{
+    cursor: pointer;
+}
+
+
+.bdb {
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.bdb:hover {
+    transition: .3s;
+}
+
+/* CART ICON COUNT */
+#cartLink {
+    position: relative;
+}
+
+#cartCount {
+    background: #f68b1e;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* CART MODAL */
+.cart-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-overlay.open {
+    display: flex;
+}
+
+.cart-modal {
+    background: #fff;
+    width: 90%;
+    max-width: 480px;
+    max-height: 80vh;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.cart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    height: auto;
+    line-height: 1;
+}
+
+.cart-items {
+    padding: 10px 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f2;
+}
+
+.cart-item-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.cart-item-price {
+    color: #ff9900;
+    font-size: 13px;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-controls button {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-item {
+    background: none;
+    border: none;
+    color: #d33;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.empty-cart {
+    text-align: center;
+    color: gray;
+    padding: 30px 0;
+}
+
+.cart-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+}
+
+.cart-total {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.cart-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.clear-btn {
+    flex: 1;
+    background: #eee;
+    border: none;
+    border-radius: 8px;
+    height: 38px;
+    cursor: pointer;
+}
+
+.checkout-btn {
+    flex: 2;
+    background: #f68b1e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    height: 38px;
+    cursor: pointer;
+}
+
+/* TOAST */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #222;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s, transform .3s;
+    z-index: 2000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.right-box :hover{
+    color: white;
+    cursor: pointer;
+    background: #000;
+    transform: translateY(-3px);
+    transition: 0s;
+
+}
+.cct:hover{
+    color: orange;
+
+}
+.ccb:hover{
+color: orange;
+}
+.cca:hover{
+color: orange;
+}
+.ccd:hover{
+color: orange;
+}
+.cca:hover{
+    color: orange;
+}
+.ccf:hover{
+color: orange;
+}
+.ccg:hover{
+    color: orange;
+}
+.ccc:hover{
+color: orange;
+}
+.cci:hover{
+color: orange;
+}
+.cce:hover{
+color: orange;
+}
+.cch:hover{
+color: orange;
+}
+ @media (max-width: 1080px){
+    .grid{ grid-template-columns:repeat(3, 1fr); }
+  }
+
+  @media (max-width: 860px){
+    .page{ flex-direction:column; }
+    .filters{ position:static; flex:none; width:100%; }
+    .grid{ grid-template-columns:repeat(2, 1fr); }
+    .search-bar{ display:none; }
+  }
+
+  @media (max-width: 480px){
+    .grid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+    .topbar{ padding:12px 16px; }
+    .page{ padding:16px 16px 48px; }
+  }
