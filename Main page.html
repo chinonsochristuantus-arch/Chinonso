@@ -1,308 +1,918 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richie clone</title>
+    <title>Richie Store</title>
+
     <link rel="stylesheet" href="Online Store.css">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
-    <!-- TOP BAR-->
-     <div class="topbar">
-        <span>Sell on Richie store </span>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <span>Sell on Richie store</span>
         <a href="#"><span class="yyy">Help Center</span></a>
         <a href="#"><span class="zzz">Help</span></a>
         <a href="#"><span class="xxx">Track order</span></a>
-    </div> 
+    </div>
 
-    <!-- HEADER --> 
-     <header id="top">
-        <div class="logo">Richie Store🛒 </div>
+
+    <!-- HEADER -->
+    <header id="top">
+
+        <div class="logo">
+            Richie Store🛒
+        </div>
+
         <form class="Search" id="searchForm">
-         <input id="productSearch" class="sea" type="search" autocomplete="off" style="border-radius: 10px;font-size: 20px;" placeholder="Search product, brands and categories" aria-label="Search products">
-        <button id="searchButton" type="submit" style="height: 60px;border-radius: 10px;font-size: 15px;">SEARCH</button>
+
+            <input
+                id="productSearch"
+                class="sea"
+                type="search"
+                autocomplete="off"
+                style="border-radius: 10px;font-size: 20px;"
+                placeholder="Search product, brands and categories"
+                aria-label="Search products"
+            >
+
+            <button
+                id="searchButton"
+                type="submit"
+                style="height: 60px;border-radius: 10px;font-size: 15px;"
+            >
+                SEARCH
+            </button>
+
         </form>
 
+
+        <!-- ACCOUNT AREA -->
         <div class="actions">
-        <label style="font-size: 25px;font-weight: bold;" for="text">🧑‍💼</label>
-        <a href=""><select style="height: 45px;border-radius: 10px;font-size: 22px; background: #f68b1e;font-weight: bold;border: transparent;color: whitesmoke;" name="" id="">
-            <option style="font-size: 20px;" value=""><p style="font-size: 20px;font-weight: bold;">Welcome</p></option>
-            
-        </select></a>
-        <label style="font-size: 25px;font-weight: bold;" for="text">?</label>
-        <select style="height: 45px;border-radius: 10px;font-size: 22px; background: #f68b1e;font-weight: bold;border: transparent;width: 90px;color: whitesmoke;" name="Help" id="">
-           <div><option style="font-size: 20px;" value=""><p  style="font-size: 20px;font-weight: bold;">Help</p></option></div>
-            <option style="font-size: 20px;" value=""><p style="font-size: 20px;font-weight: bold;">Place an order</p></option>
-             <option style="font-size: 20px;" value=""><p style="font-size: 20px;font-weight: bold;">Payment option</p></option>
-              <option style="font-size: 20px;" value=""><a href="Phone section.html"></a><p style="font-size: 20px;font-weight: bold;">Pay on Delivery</p></option></a>
 
-        </select>
+            <label style="font-size: 25px;font-weight: bold;">
+                🧑‍💼
+            </label>
+
+            <!-- LOGGED OUT -->
+            <div id="loggedOutArea">
+
+                <a href="login.html" style="text-decoration:none;">
+                    <button
+                        type="button"
+                        style="
+                        height:45px;
+                        border-radius:10px;
+                        font-size:18px;
+                        background:#f68b1e;
+                        font-weight:bold;
+                        border:none;
+                        color:white;
+                        padding:0 15px;
+                        cursor:pointer;
+                        "
+                    >
+                        LOGIN
+                    </button>
+                </a>
+
+            </div>
 
 
-    </div>
+            <!-- LOGGED IN -->
+            <div
+                id="loggedInArea"
+                style="display:none; align-items:center; gap:8px;"
+            >
+
+                <span
+                    id="userName"
+                    style="
+                    color:white;
+                    font-size:18px;
+                    font-weight:bold;
+                    "
+                >
+                    Welcome
+                </span>
+
+                <button
+                    id="logoutButton"
+                    type="button"
+                    style="
+                    height:40px;
+                    border-radius:8px;
+                    font-size:15px;
+                    background:#0F1724;
+                    font-weight:bold;
+                    border:none;
+                    color:white;
+                    padding:0 12px;
+                    cursor:pointer;
+                    "
+                >
+                    LOGOUT
+                </button>
+
+            </div>
+
+
+            <label style="font-size:25px;font-weight:bold;">
+                ?
+            </label>
+
+
+            <select
+                style="
+                height:45px;
+                border-radius:10px;
+                font-size:22px;
+                background:#f68b1e;
+                font-weight:bold;
+                border:transparent;
+                width:90px;
+                color:whitesmoke;
+                "
+            >
+
+                <option style="font-size:20px;">
+                    Help
+                </option>
+
+                <option style="font-size:20px;">
+                    Place an order
+                </option>
+
+                <option style="font-size:20px;">
+                    Payment option
+                </option>
+
+                <option style="font-size:20px;">
+                    Pay on Delivery
+                </option>
+
+            </select>
+
+        </div>
+
     </header>
 
+
     <!-- MAIN -->
-     <div class="layout">
+    <div class="layout">
+
 
         <!-- SIDEBAR -->
-         <aside>
-            <div >
-<ul class="" style="list-style: none; font-size: 25px;font-weight: 35px;">
-                
-                  <a href="Phone section.html"><li class="cct">Phones</li></a>
-                 <a href="Laptop section.html"><li class="cci">Laptops</li></a>
-                 <a href="Cloth section.html"><li class="cch">Fashions</li></a>
-                 <a href="speaker.html"><li  class="ccg">Speakers</li></a>
-                 <a href="headphones.html"><li class="ccf">Headphones</li></a>
-                 <a href="Wristwatch.html"><li class="cce">wrist watch</li></a>
-                 <a href="car.html"><li class="ccd"> Luxury Cars</li></a>
-                <a href="Tv.html"><li class="cca">Smart Tv</li></a>
-                 <a href="Generator.html"><li class="ccb">Generator</li></a>
+        <aside>
+
+            <div>
+
+                <ul style="
+                list-style:none;
+                font-size:25px;
+                font-weight:35px;
+                ">
+
+                    <a href="Phone section.html">
+                        <li class="cct">Phones</li>
+                    </a>
+
+                    <a href="Laptop section.html">
+                        <li class="cci">Laptops</li>
+                    </a>
+
+                    <a href="Cloth section.html">
+                        <li class="cch">Fashions</li>
+                    </a>
+
+                    <a href="speaker.html">
+                        <li class="ccg">Speakers</li>
+                    </a>
+
+                    <a href="headphones.html">
+                        <li class="ccf">Headphones</li>
+                    </a>
+
+                    <a href="Wristwatch.html">
+                        <li class="cce">wrist watch</li>
+                    </a>
+
+                    <a href="car.html">
+                        <li class="ccd">Luxury Cars</li>
+                    </a>
+
+                    <a href="Tv.html">
+                        <li class="cca">Smart Tv</li>
+                    </a>
+
+                    <a href="Generator.html">
+                        <li class="ccb">Generator</li>
+                    </a>
 
                 </ul>
-            </div> 
-        </aside>  
 
-           <!-- HERO -->     
-            <section class="hero">
-               
-              <div style="padding-top: 30px;padding-left: 30px;font-size: 50px;color: white;">
-             <h1 class="">UP TO</h1>
-                <h1 class=""> 60% OFF</h1>
-                <p class="">Everything you love</p>
-      <div style="padding-left: 40px;">   <a href="">  <button class="bdb">SHOP NOW > </button> </a></div> 
+            </div>
 
-        </div>
-     </section> 
+        </aside>
+
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div
+                style="
+                padding-top:30px;
+                padding-left:30px;
+                font-size:50px;
+                color:white;
+                "
+            >
+
+                <h1>UP TO</h1>
+
+                <h1>60% OFF</h1>
+
+                <p>Everything you love</p>
+
+                <div style="padding-left:40px;">
+
+                    <a href="#">
+                        <button class="bdb">
+                            SHOP NOW >
+                        </button>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
 
         <!-- RIGHT INFO -->
-         <div class="right-box">
-            <div class="box"><h5>PAY ON DELIVERY</h5>Pay cash at your door step🛂</div>
-            <div class="box"><h5>FREE RETURNS</h5>Easy returns within 7 days📦</div>
-            <div class="box"><h5>SAVE SHOPPING</h5>Your data is always protected🛡️</div>
-        </div>   
-        
-    </div>
-    <marquee class="ttt" behavior="" direction="">Welcome To Richie Online Store We Offer Quality Product At Great Price With Easy Shopping And Fast Delivery.</marquee>
-    
-       <!-- FLASH SALES -->
-        <section class="flash" id="flash-sales">
-            <div class="flash-header">
-                <h2>Flash Sales</h2>
-                <span>Ends Soon</span>
-            </div>
-            
-            <div class="flash-products">
-        
-            <div class="card">
-                <img
-                src="Samsung galaxy.jpeg" style="height: 150px;">
+        <div class="right-box">
 
-                <div class="card-content">
-                <h3>Samsung </h3>
-                <p>(256GB)-White Titanium </p>
-                <div class="rating">★★★★ 4.7</div>
-                 <div class="price">₦280,000</div>
-                 <div class="old-price">₦300,000</div>
-                
-                 </div>
-              </div>
-
-              <div class="card">
-                <img 
-                src="laptop2 jpg.jpeg">
-
-
-                <div class="card-content">
-                <h3>Laptop</h3>
-                <p>(256GB)-White Titanium</p>
-                <div class="rating">★★★★ 4.5</div>
-                 <div class="price">₦800,000</div>
-                 <div class="old-price">₦950,000</div>
-                
-            </div>
+            <div class="box">
+                <h5>PAY ON DELIVERY</h5>
+                Pay cash at your door step🛂
             </div>
 
-            <div class="card">
-                <img 
-                src="electronics.jpg.jpeg">
-
-                <div style="padding-top: 20px;">
-                <h3>Speaker</h3>
-                <p>- Black Titanium</p>
-                <div class="rating">★★★ 3.5</div>
-                  <div class="price">₦70,000</div>
-                 <div class="old-price">₦85,000</div>
-                
-            </div>
+            <div class="box">
+                <h5>FREE RETURNS</h5>
+                Easy returns within 7 days📦
             </div>
 
-            <div class="card">
-                <img 
-                src="fashion jpg.jpeg">
-
-                <div style="padding-top: 20px;">
-                <h3>Fashion</h3>
-                 <p>- Unisex Design</p>
-                 <div class="rating">★★★ 3.5</div>
-                 <div class="price">₦35,000</div>
-                 <div class="old-price">₦40,000</div>
-                
-                 </div>
-            </div>  
-
-            <div class="card">
-                <img 
-                src="Headphone.jpg.jpeg">
-                <div style="padding-top: 20px;">
-                <h3>Headphone</h3>
-                <p>-Blue Headphone</p>
-                <div class="rating">★★★ 3.7</div>
-                <div class="price">₦25,000</div>
-                <div class="old-price">₦30,000</div>
-                            </div>
+            <div class="box">
+                <h5>SAVE SHOPPING</h5>
+                Your data is always protected🛡️
             </div>
 
-            <div class="card">
-                <img 
-                src="shoe.jpg.jpeg">
-
-                <div style="padding-top: 2px;">
-                <h3>Shoe</h3>
-                <p>-Black & White Sneakers</p>
-                <div class="rating">★★★ 3.5</div>
-                <div class="price">₦20,000</div>
-                <div class="old-price">₦28,000</div>
-                
-                </div>
-            </div>
-
-            <div class="card">
-                <img 
-                src="car.jpg.jpeg">
-
-                <div style="padding-top: 27px;">
-                <h3>Car</h3>
-                <p>-G Wagon Mecedez</p>
-                <div class="rating">★★★★ 4.8</div>
-                <div class="price">₦87,000,000</div>
-                <div class="old-price">₦95,000,000</div>
-                
-                </div>
-            </div>
-
-            
-            
-            <div class="card">
-                <img src="Tv.jpg.jpeg">
-
-                <div style="padding-top: 20px;">
-                <h3>Smart Tv</h3>
-                 <p>-Smart Tv</p>
-                 <div class="rating">★★★★ 4.1</div>
-                 <div class="price">₦220,000</div>
-                 <div class="old-price">₦250,000</div>
-                
-                 </div>
-            </div>
-
-            <div class="card">
-                <img src="fridge.jp.jpeg">
-
-                <div style="padding-top: 45px;">
-                <h3>Thermocool</h3>    
-                <p>-White Refrigerator</p>
-                <div class="rating">★★★★ 4.1</div>
-                <div class="price">₦170,000</div>
-                <div class="old-price">₦185,000</div>
-                            </div>  
-            </div>
-
-            <div class="card">
-                <img src="Gen.jpg.jpeg">
-                <div style="padding-top: 7px;">
-             <h3>Generator</h3>
-             <p>- High Quality Generator</p>
-             <div class="rating">★★★ 3.8</div>
-             <div class="price">₦155,000</div>
-             <div class="old-price">₦180,000</div>
-                             
-                
-                
-            </div> 
-            
         </div>
+
+    </div>
+
+
+    <marquee
+        class="ttt"
+        direction=""
+    >
+        Welcome To Richie Online Store We Offer Quality Product At Great Price With Easy Shopping And Fast Delivery.
+    </marquee>
+
+
+    <!-- FLASH SALES -->
+    <section class="flash" id="flash-sales">
+
+        <div class="flash-header">
+
+            <h2>Flash Sales</h2>
+
+            <span>Ends Soon</span>
+
+        </div>
+
+
+        <div class="flash-products">
+
+
+            <!-- PRODUCT 1 -->
+            <div class="card">
+
+                <img
+                    src="my pictures/Samsung galaxy.jpeg"
+                    style="height:150px;"
+                >
+
+                <div class="card-content">
+
+                    <h3>Samsung</h3>
+
+                    <p>(256GB)-White Titanium</p>
+
+                    <div class="rating">
+                        ★★★★ 4.7
+                    </div>
+
+                    <div class="price">
+                        ₦280,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦300,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 2 -->
+            <div class="card">
+
+                <img src="my pictures/laptop2 jpg.jpeg">
+
+                <div class="card-content">
+
+                    <h3>Laptop</h3>
+
+                    <p>(256GB)-White Titanium</p>
+
+                    <div class="rating">
+                        ★★★★ 4.5
+                    </div>
+
+                    <div class="price">
+                        ₦800,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦950,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 3 -->
+            <div class="card">
+
+                <img src="my pictures/electronics.jpg.jpeg">
+
+                <div style="padding-top:20px;">
+
+                    <h3>Speaker</h3>
+
+                    <p>- Black Titanium</p>
+
+                    <div class="rating">
+                        ★★★ 3.5
+                    </div>
+
+                    <div class="price">
+                        ₦70,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦85,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 4 -->
+            <div class="card">
+
+                <img src="my pictures/fashion jpg.jpeg">
+
+                <div style="padding-top:20px;">
+
+                    <h3>Fashion</h3>
+
+                    <p>- Unisex Design</p>
+
+                    <div class="rating">
+                        ★★★ 3.5
+                    </div>
+
+                    <div class="price">
+                        ₦35,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦40,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 5 -->
+            <div class="card">
+
+                <img src="my pictures/Headphone.jpg.jpeg">
+
+                <div style="padding-top:20px;">
+
+                    <h3>Headphone</h3>
+
+                    <p>-Blue Headphone</p>
+
+                    <div class="rating">
+                        ★★★ 3.7
+                    </div>
+
+                    <div class="price">
+                        ₦25,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦30,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 6 -->
+            <div class="card">
+
+                <img src="my pictures/shoe.jpg.jpeg">
+
+                <div style="padding-top:2px;">
+
+                    <h3>Shoe</h3>
+
+                    <p>-Black & White Sneakers</p>
+
+                    <div class="rating">
+                        ★★★ 3.5
+                    </div>
+
+                    <div class="price">
+                        ₦20,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦28,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 7 -->
+            <div class="card">
+
+                <img src="my pictures/car.jpg.jpeg">
+
+                <div style="padding-top:27px;">
+
+                    <h3>Car</h3>
+
+                    <p>-G Wagon Mecedez</p>
+
+                    <div class="rating">
+                        ★★★★ 4.8
+                    </div>
+
+                    <div class="price">
+                        ₦87,000,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦95,000,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 8 -->
+            <div class="card">
+
+                <img src="my pictures/Tv.jpg.jpeg">
+
+                <div style="padding-top:20px;">
+
+                    <h3>Smart Tv</h3>
+
+                    <p>-Smart Tv</p>
+
+                    <div class="rating">
+                        ★★★★ 4.1
+                    </div>
+
+                    <div class="price">
+                        ₦220,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦250,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 9 -->
+            <div class="card">
+
+                <img src="my pictures/fridge.jp.jpeg">
+
+                <div style="padding-top:45px;">
+
+                    <h3>Thermocool</h3>
+
+                    <p>-White Refrigerator</p>
+
+                    <div class="rating">
+                        ★★★★ 4.1
+                    </div>
+
+                    <div class="price">
+                        ₦170,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦185,000
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT 10 -->
+            <div class="card">
+
+                <img src="my pictures/Gen.jpg.jpeg">
+
+                <div style="padding-top:7px;">
+
+                    <h3>Generator</h3>
+
+                    <p>- High Quality Generator</p>
+
+                    <div class="rating">
+                        ★★★ 3.8
+                    </div>
+
+                    <div class="price">
+                        ₦155,000
+                    </div>
+
+                    <div class="old-price">
+                        ₦180,000
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </section>
 
+
+    <!-- FOOTER -->
     <footer class="site-footer">
+
         <div class="footer-content">
+
             <div class="footer-about">
-                <a class="footer-logo" href="#top">Richie Store</a>
-                <p>Quality products, easy shopping, and fast delivery.</p>
+
+                <a class="footer-logo" href="#top">
+                    Richie Store
+                </a>
+
+                <p>
+                    Quality products, easy shopping, and fast delivery.
+                </p>
+
             </div>
 
+
             <div class="footer-column">
+
                 <h2>Shop</h2>
-                <a href="Phone section.html">Phones</a>
-                <a href="Laptop section.html">Laptops</a>
-                <a href="Cloth section.html">Fashion</a>
-                <a href="car.html">Cars</a>
+
+                <a href="Phone section.html">
+                    Phones
+                </a>
+
+                <a href="Laptop section.html">
+                    Laptops
+                </a>
+
+                <a href="Cloth section.html">
+                    Fashion
+                </a>
+
+                <a href="car.html">
+                    Cars
+                </a>
+
             </div>
 
+
             <div class="footer-column">
+
                 <h2>Customer care</h2>
-                <a href="Sign up.html">Register</a>
-                <a href="#flash-sales">Flash sales</a>
-                <a href="#top">Back to top</a>
+
+                <a href="Sign up.html">
+                    Register
+                </a>
+
+                <a href="#flash-sales">
+                    Flash sales
+                </a>
+
+                <a href="#top">
+                    Back to top
+                </a>
+
             </div>
 
+
             <div class="footer-column">
+
                 <h2>Follow us</h2>
-                <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
-                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a href="https://www.tiktok.com/@richie0426?_r=1&_t=ZS-9AAQnTCXE6G" rel="noopener noreferrer">TikTok</a>
+
+                <a
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Facebook
+                </a>
+
+                <a
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Instagram
+                </a>
+
+                <a
+                    href="https://www.tiktok.com/@richie0426?_r=1&_t=ZS-9AAQnTCXE6G"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    TikTok
+                </a>
+
             </div>
+
         </div>
 
-        <div class="footer-bottom">© 2026 Richie Store. All rights reserved.</div>
-    </footer>
-    <script>
-        (() => {
-            const searchForm = document.getElementById('searchForm');
-            const searchInput = document.getElementById('productSearch');
-            const productGrid = document.querySelector('.flash-products');
-            const productCards = [...productGrid.querySelectorAll('.card')];
-            const emptyMessage = document.createElement('p');
 
-            emptyMessage.textContent = 'No products found. Try another search.';
+        <div class="footer-bottom">
+            © 2026 Richie Store. All rights reserved.
+        </div>
+
+    </footer>
+
+
+    <!-- SUPABASE LOGIN SYSTEM -->
+    <script>
+
+        const SUPABASE_URL =
+            "https://wayzbaudwhnuizcgdqtb.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8";
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        // CHECK CURRENT USER
+
+        async function checkLoggedInUser() {
+
+            const {
+                data,
+                error
+            } = await supabaseClient.auth.getUser();
+
+
+            const loggedOutArea =
+                document.getElementById("loggedOutArea");
+
+            const loggedInArea =
+                document.getElementById("loggedInArea");
+
+            const userName =
+                document.getElementById("userName");
+
+
+            if (error || !data.user) {
+
+                // USER IS NOT LOGGED IN
+
+                loggedOutArea.style.display = "block";
+
+                loggedInArea.style.display = "none";
+
+                return;
+            }
+
+
+            // USER IS LOGGED IN
+
+            const user = data.user;
+
+
+            const fullName =
+                user.user_metadata?.full_name ||
+                user.email ||
+                "User";
+
+
+            userName.textContent =
+                "Hi, " + fullName;
+
+
+            loggedOutArea.style.display =
+                "none";
+
+            loggedInArea.style.display =
+                "flex";
+        }
+
+
+        // LOGOUT
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener("click", async function() {
+
+                const {
+                    error
+                } = await supabaseClient.auth.signOut();
+
+
+                if (error) {
+
+                    alert(
+                        "Logout failed: " +
+                        error.message
+                    );
+
+                    return;
+                }
+
+
+                // Return to login page
+
+                window.location.href =
+                    "login.html";
+
+            });
+
+
+        // RUN USER CHECK
+
+        checkLoggedInUser();
+
+    </script>
+
+
+    <!-- PRODUCT SEARCH -->
+    <script>
+
+        (() => {
+
+            const searchForm =
+                document.getElementById(
+                    "searchForm"
+                );
+
+
+            const searchInput =
+                document.getElementById(
+                    "productSearch"
+                );
+
+
+            const productGrid =
+                document.querySelector(
+                    ".flash-products"
+                );
+
+
+            const productCards =
+                [
+                    ...productGrid.querySelectorAll(
+                        ".card"
+                    )
+                ];
+
+
+            const emptyMessage =
+                document.createElement("p");
+
+
+            emptyMessage.textContent =
+                "No products found. Try another search.";
+
+
             emptyMessage.hidden = true;
-            emptyMessage.style.gridColumn = '1 / -1';
-            emptyMessage.style.padding = '24px 0';
-            productGrid.appendChild(emptyMessage);
+
+
+            emptyMessage.style.gridColumn =
+                "1 / -1";
+
+
+            emptyMessage.style.padding =
+                "24px 0";
+
+
+            productGrid.appendChild(
+                emptyMessage
+            );
+
 
             const filterProducts = () => {
-                const query = searchInput.value.trim().toLowerCase();
+
+                const query =
+                    searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
                 let visibleProducts = 0;
 
-                productCards.forEach((card) => {
-                    const matches = query === '' || card.textContent.toLowerCase().includes(query);
-                    card.hidden = !matches;
-                    if (matches) {
-                        visibleProducts += 1;
-                    }
-                });
 
-                emptyMessage.hidden = visibleProducts !== 0;
+                productCards.forEach(
+                    (card) => {
+
+                        const matches =
+                            query === "" ||
+                            card.textContent
+                                .toLowerCase()
+                                .includes(query);
+
+
+                        card.hidden =
+                            !matches;
+
+
+                        if (matches) {
+
+                            visibleProducts++;
+
+                        }
+
+                    }
+                );
+
+
+                emptyMessage.hidden =
+                    visibleProducts !== 0;
+
             };
 
-            searchInput.addEventListener('input', filterProducts);
-            searchForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                filterProducts();
-            });
+
+            searchInput.addEventListener(
+                "input",
+                filterProducts
+            );
+
+
+            searchForm.addEventListener(
+                "submit",
+                (event) => {
+
+                    event.preventDefault();
+
+                    filterProducts();
+
+                }
+            );
+
         })();
+
     </script>
+
+
 </body>
 </html>
