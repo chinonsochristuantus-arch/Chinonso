@@ -436,7 +436,7 @@
 
       <div id="formView">
         <h2>Create your account</h2>
-        <p class="sub">Already have an account? <a href="Login.html">Log in</a></p>
+        <p class="sub">Already have an account? <a href="Login.html" id="">Log in</a></p>
 
         <form id="signupForm" novalidate>
           <div class="field" id="field-name">
@@ -576,6 +576,10 @@
     document.getElementById('successView').classList.add('show');
   });
 
+  document.getElementById('gotoSignin').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('This is a demo signup page — sign-in would live at your own /login route.');
+  });
 })();
 
 </script>
