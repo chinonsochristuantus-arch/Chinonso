@@ -466,7 +466,7 @@
       <!-- LOGIN VIEW -->
       <div id="loginView">
         <h2>Log in</h2>
-        <p class="sub">New to Richie Store? <a href="Sign up.html">Create an account</a></p>
+        <p class="sub">New to Richie Store?<a href="Sign up.html">Create an account</p></a>
 
         <form id="loginForm" novalidate>
           <div class="field" id="field-identifier">
@@ -634,6 +634,11 @@
     showOnly(resetSuccessView);
   });
 
+  // ---------- GO TO SIGNUP ----------
+  document.getElementById('gotoSignup').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('This is a demo login page — sign-up would live at your richie-store-signup.html page.');
+  });
 })();
 </script>
 
