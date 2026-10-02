@@ -1,418 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Richie Store — Log In</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --orange:#F68B1E;
-  --orange-dark:#E17A0E;
-  --navy:#0F1724;
-  --gray-900:#1A1D22;
-  --gray-600:#6B7280;
-  --gray-300:#E1E4E8;
-  --gray-100:#F7F8FA;
-  --white:#FFFFFF;
-  --error:#D64545;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:'Inter',sans-serif;
-  background:var(--gray-100);
-  color:var(--gray-900);
-  min-height:100vh;
-}
-
-.topbar{
-  background:var(--white);
-  border-bottom:1px solid var(--gray-300);
-  padding:16px 32px;
-  display:flex;
-  align-items:center;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-family:'Poppins',sans-serif;
-  font-weight:700;
-  font-size:20px;
-  color:var(--gray-900);
-  text-decoration:none;
-}
-
-.logo .mark{
-  width:30px;
-  height:30px;
-  background:var(--orange);
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--white);
-  font-size:16px;
-  font-weight:700;
-}
-
-.logo .store{
-  color:var(--orange);
-}
-
-.wrap{
-  display:flex;
-  min-height:calc(100vh - 63px);
-}
-
-.promo{
-  flex:0 0 44%;
-  background:linear-gradient(160deg,var(--orange) 0%,var(--orange-dark) 100%);
-  color:var(--white);
-  padding:64px 56px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.promo h1{
-  font-family:'Poppins',sans-serif;
-  font-size:clamp(28px,3vw,38px);
-  line-height:1.25;
-  font-weight:700;
-  margin-bottom:16px;
-}
-
-.promo p{
-  font-size:15.5px;
-  line-height:1.6;
-  color:rgba(255,255,255,.9);
-  max-width:36ch;
-  margin-bottom:36px;
-}
-
-.promo-badge{
-  display:inline-flex;
-  align-items:center;
-  background:rgba(255,255,255,.18);
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:12.5px;
-  font-weight:600;
-  width:fit-content;
-  margin-bottom:24px;
-}
-
-.promo-features{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
-.promo-features li{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:14.5px;
-  font-weight:500;
-}
-
-.promo-features .icon{
-  width:32px;
-  height:32px;
-  background:rgba(255,255,255,.2);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.form-side{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:48px 24px;
-}
-
-.card{
-  width:100%;
-  max-width:420px;
-  background:var(--white);
-  border:1px solid var(--gray-300);
-  border-radius:10px;
-  padding:36px 34px;
-  box-shadow:0 2px 6px rgba(15,23,36,.04);
-}
-
-.card h2{
-  font-family:'Poppins',sans-serif;
-  font-size:22px;
-  font-weight:600;
-  margin-bottom:6px;
-}
-
-.card .sub{
-  font-size:13.5px;
-  color:var(--gray-600);
-  margin-bottom:26px;
-}
-
-.card .sub a{
-  color:var(--orange);
-  text-decoration:none;
-  font-weight:600;
-}
-
-form{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
-.field label{
-  display:block;
-  font-size:13px;
-  font-weight:600;
-  margin-bottom:6px;
-}
-
-.field input{
-  width:100%;
-  font-family:'Inter',sans-serif;
-  font-size:14.5px;
-  padding:11px 13px;
-  border:1.5px solid var(--gray-300);
-  border-radius:6px;
-  background:var(--white);
-  color:var(--gray-900);
-  outline:none;
-}
-
-.field input:focus{
-  border-color:var(--orange);
-  box-shadow:0 0 0 3px rgba(246,139,30,.15);
-}
-
-.field.error input{
-  border-color:var(--error);
-}
-
-.field .err-msg{
-  font-size:12px;
-  color:var(--error);
-  margin-top:5px;
-  display:none;
-}
-
-.field.error .err-msg{
-  display:block;
-}
-
-.pw-wrap{
-  position:relative;
-}
-
-.pw-wrap input{
-  padding-right:64px;
-}
-
-.pw-toggle{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  background:none;
-  border:none;
-  font-size:12px;
-  font-weight:600;
-  color:var(--gray-600);
-  cursor:pointer;
-}
-
-.row-between{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.remember{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:13px;
-  color:var(--gray-600);
-}
-
-.remember input{
-  width:15px;
-  height:15px;
-  accent-color:var(--orange);
-}
-
-.forgot{
-  font-size:13px;
-  font-weight:600;
-  color:var(--orange);
-  text-decoration:none;
-}
-
-button.submit{
-  margin-top:6px;
-  background:var(--orange);
-  color:var(--white);
-  border:none;
-  border-radius:6px;
-  padding:13px 16px;
-  font-family:'Inter',sans-serif;
-  font-size:14.5px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-button.submit:hover{
-  background:var(--orange-dark);
-}
-
-.divider{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:20px 0 4px;
-  color:var(--gray-600);
-  font-size:12px;
-}
-
-.divider::before,
-.divider::after{
-  content:"";
-  flex:1;
-  height:1px;
-  background:var(--gray-300);
-}
-
-.social-row{
-  display:flex;
-  gap:10px;
-  margin-top:14px;
-}
-
-.social-btn{
-  flex:1;
-  padding:10px;
-  border:1.5px solid var(--gray-300);
-  border-radius:6px;
-  background:var(--white);
-  font-size:13px;
-  cursor:pointer;
-}
-
-.footnote{
-  text-align:center;
-  font-size:11.5px;
-  color:var(--gray-600);
-  margin-top:20px;
-}
-
-.success{
-  display:none;
-  text-align:center;
-  padding:8px 0 4px;
-}
-
-.success.show{
-  display:block;
-}
-
-.success-check{
-  width:64px;
-  height:64px;
-  margin:0 auto 20px;
-  background:#E9F8EF;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.success-check svg{
-  width:28px;
-  height:28px;
-}
-
-.success h2{
-  font-family:'Poppins',sans-serif;
-  font-size:20px;
-  margin-bottom:8px;
-}
-
-.success p{
-  font-size:13.5px;
-  color:var(--gray-600);
-  line-height:1.6;
-  margin-bottom:22px;
-}
-
-.success .cta{
-  display:inline-block;
-  background:var(--orange);
-  color:var(--white);
-  text-decoration:none;
-  font-size:13.5px;
-  font-weight:600;
-  padding:11px 22px;
-  border-radius:6px;
-}
-
-@media(max-width:900px){
-  .wrap{
-    flex-direction:column;
+  :root{
+    --orange:#F68B1E;
+    --orange-dark:#E17A0E;
+    --navy:#0F1724;
+    --gray-900:#1A1D22;
+    --gray-600:#6B7280;
+    --gray-300:#E1E4E8;
+    --gray-100:#F7F8FA;
+    --white:#FFFFFF;
+    --error:#D64545;
   }
 
-  .promo{
-    flex:none;
-    padding:40px 28px;
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--gray-100);
+    color:var(--gray-900);
+    min-height:100vh;
   }
 
-  .form-side{
-    padding:36px 20px 56px;
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
-}
 
-@media(max-width:480px){
+  /* ---------- TOP BAR ---------- */
   .topbar{
-    padding:12px 16px;
+    background:var(--white);
+    border-bottom:1px solid var(--gray-300);
+    padding:16px 32px;
+    display:flex;
+    align-items:center;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--gray-900);
+    text-decoration:none;
+  }
+
+  .logo .mark{
+    width:30px;
+    height:30px;
+    background:var(--orange);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--white);
+    font-size:16px;
+    font-weight:700;
+  }
+
+  .logo .store{ color:var(--orange); }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{
+    display:flex;
+    min-height:calc(100vh - 63px);
   }
 
   .promo{
-    padding:32px 20px;
+    flex:0 0 44%;
+    background:linear-gradient(160deg, var(--orange) 0%, var(--orange-dark) 100%);
+    color:var(--white);
+    padding:64px 56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
   }
 
+  .promo::before{
+    content:"";
+    position:absolute;
+    width:420px; height:420px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-140px; right:-140px;
+  }
+
+  .promo::after{
+    content:"";
+    position:absolute;
+    width:260px; height:260px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.07);
+    bottom:-100px; left:-80px;
+  }
+
+  .promo-badge{
+    display:inline-flex;
+    align-items:center;
+    background:rgba(255,255,255,0.18);
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.3px;
+    width:fit-content;
+    margin-bottom:24px;
+  }
+
+  .promo h1{
+    font-family:'Poppins', sans-serif;
+    font-size:clamp(28px,3vw,38px);
+    line-height:1.25;
+    font-weight:700;
+    margin-bottom:16px;
+    position:relative;
+  }
+
+  .promo p{
+    font-size:15.5px;
+    line-height:1.6;
+    color:rgba(255,255,255,0.9);
+    max-width:36ch;
+    margin-bottom:36px;
+    position:relative;
+  }
+
+  .promo-features{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    position:relative;
+  }
+
+  .promo-features li{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14.5px;
+    font-weight:500;
+  }
+
+  .promo-features .icon{
+    width:32px; height:32px;
+    background:rgba(255,255,255,0.2);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:15px;
+  }
+
+  /* ---------- FORM SIDE ---------- */
   .form-side{
-    padding:28px 12px 44px;
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 24px;
   }
 
   .card{
-    padding:28px 20px;
+    width:100%;
+    max-width:420px;
+    background:var(--white);
+    border:1px solid var(--gray-300);
+    border-radius:10px;
+    padding:36px 34px;
+    box-shadow:0 2px 6px rgba(15,23,36,0.04);
   }
-}
+
+  .card h2{
+    font-family:'Poppins', sans-serif;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+
+  .card .sub{
+    font-size:13.5px;
+    color:var(--gray-600);
+    margin-bottom:26px;
+  }
+
+  .card .sub a{ color:var(--orange); text-decoration:none; font-weight:600; }
+  .card .sub a:hover{ text-decoration:underline; }
+
+  form{ display:flex; flex-direction:column; gap:16px; }
+
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gray-900);
+    margin-bottom:6px;
+  }
+
+  .field input{
+    width:100%;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    padding:11px 13px;
+    border:1.5px solid var(--gray-300);
+    border-radius:6px;
+    background:var(--white);
+    color:var(--gray-900);
+    outline:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .field input::placeholder{ color:#9AA1AC; }
+
+  .field input:focus{
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(246,139,30,0.15);
+  }
+
+  .field.error input{ border-color:var(--error); }
+  .field .err-msg{
+    font-size:12px;
+    color:var(--error);
+    margin-top:5px;
+    min-height:14px;
+    display:none;
+  }
+  .field.error .err-msg{ display:block; }
+
+  .pw-wrap{ position:relative; }
+  .pw-wrap input{ padding-right:76px; }
+  .pw-toggle{
+    position:absolute;
+    right:4px;
+    top:50%;
+    transform:translateY(-50%);
+    min-width:44px;
+    min-height:44px;
+    background:none;
+    border:none;
+    font-size:12px;
+    font-weight:600;
+    color:var(--gray-600);
+    cursor:pointer;
+    padding:8px;
+    touch-action:manipulation;
+  }
+  .pw-toggle:hover{ color:var(--orange); }
+  .pw-toggle:focus-visible{ outline:2px solid var(--orange); outline-offset:1px; }
+
+  .row-between{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:-4px;
+  }
+
+  .remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--gray-600);
+  }
+
+  .remember input{
+    width:15px; height:15px;
+    accent-color:var(--orange);
+  }
+
+  .forgot{
+    font-size:13px;
+    font-weight:600;
+    color:var(--orange);
+    text-decoration:none;
+  }
+  .forgot:hover{ text-decoration:underline; }
+
+  button.submit{
+    margin-top:6px;
+    background:var(--orange);
+    color:var(--white);
+    border:none;
+    border-radius:6px;
+    padding:13px 16px;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition: background .15s ease;
+  }
+
+  button.submit:hover{ background:var(--orange-dark); }
+  button.submit:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:20px 0 4px;
+    color:var(--gray-600);
+    font-size:12px;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--gray-300);
+  }
+
+  .social-row{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .social-btn{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:10px;
+    border:1.5px solid var(--gray-300);
+    border-radius:6px;
+    background:var(--white);
+    font-size:13px;
+    font-weight:500;
+    color:var(--gray-900);
+    cursor:pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+
+  .social-btn:hover{ border-color:var(--gray-900); background:var(--gray-100); }
+
+  .footnote{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--gray-600);
+    margin-top:20px;
+  }
+
+  /* ---------- FORGOT PASSWORD VIEW ---------- */
+  .forgot-view{ display:none; }
+  .forgot-view.show{ display:block; animation: pop .25s ease; }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gray-600);
+    text-decoration:none;
+    margin-bottom:18px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+  }
+  .back-link:hover{ color:var(--orange); }
+
+  /* ---------- SUCCESS ---------- */
+  .success{
+    display:none;
+    text-align:center;
+    padding:8px 0 4px;
+  }
+  .success.show{ display:block; animation: pop .3s ease; }
+
+  @keyframes pop{
+    0%{ opacity:0; transform:scale(0.92); }
+    100%{ opacity:1; transform:scale(1); }
+  }
+
+  .success-check{
+    width:64px; height:64px;
+    margin:0 auto 20px;
+    background:#E9F8EF;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .success-check svg{ width:28px; height:28px; }
+
+  .success h2{
+    font-family:'Poppins', sans-serif;
+    font-size:20px;
+    margin-bottom:8px;
+  }
+
+  .success p{
+    font-size:13.5px;
+    color:var(--gray-600);
+    line-height:1.6;
+    margin-bottom:22px;
+  }
+
+  .success .cta{
+    display:inline-block;
+    background:var(--orange);
+    color:var(--white);
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:6px;
+  }
+  .success .cta:hover{ background:var(--orange-dark); }
+
+  @media (max-width: 900px){
+    .wrap{ flex-direction:column; }
+    .promo{ flex:none; padding:40px 28px; }
+    .promo::before, .promo::after{ display:none; }
+    .form-side{ padding:36px 20px 56px; }
+  }
+
+  @media (max-width: 480px){
+    .topbar{ padding:12px 16px; }
+    .promo{ padding:32px 20px; }
+    .form-side{ padding:28px 12px 44px; }
+    .card{ padding:28px 20px; }
+  }
 </style>
 </head>
-
 <body>
 
 <div class="topbar">
@@ -424,339 +445,201 @@ button.submit:hover{
 
 <div class="wrap">
 
-<section class="promo">
+  <!-- LEFT: PROMO PANEL -->
+  <section class="promo">
+    <span class="promo-badge">👋 Good to see you again</span>
+    <h1>Log in to pick up right where you left off.</h1>
+    <p>Your saved items, order history, and member pricing are all waiting for you.</p>
 
-  <span class="promo-badge">👋 Good to see you again</span>
+    <ul class="promo-features">
+      <li><span class="icon">📦</span> Track orders in real time</li>
+      <li><span class="icon">❤️</span> Access your saved favorites</li>
+      <li><span class="icon">🏷️</span> Member-only prices, every day</li>
+      <li><span class="icon">⚡</span> Faster checkout, every order</li>
+    </ul>
+  </section>
 
-  <h1>Log in to pick up right where you left off.</h1>
+  <!-- RIGHT: FORM PANEL -->
+  <section class="form-side">
+    <div class="card">
 
-  <p>
-    Your saved items, order history, and member pricing are all waiting for you.
-  </p>
+      <!-- LOGIN VIEW -->
+      <div id="loginView">
+        <h2>Log in</h2>
+        <p class="sub">New to Richie Store?<a href="Sign up.html">Create an account</p></a>
 
-  <ul class="promo-features">
-    <li><span class="icon">📦</span> Track orders in real time</li>
-    <li><span class="icon">❤️</span> Access your saved favorites</li>
-    <li><span class="icon">🏷️</span> Member-only prices, every day</li>
-    <li><span class="icon">⚡</span> Faster checkout, every order</li>
-  </ul>
+        <form id="loginForm" novalidate>
+          <div class="field" id="field-identifier">
+            <label for="identifier">Email or mobile number</label>
+            <input type="text" id="identifier" name="identifier" placeholder="you@example.com" autocomplete="username">
+            <span class="err-msg">Enter your email or mobile number.</span>
+          </div>
 
-</section>
+          <div class="field" id="field-password">
+            <label for="password">Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password">
+              <button type="button" class="pw-toggle" data-target="password" aria-label="Show password" aria-pressed="false">SHOW</button>
+            </div>
+            <span class="err-msg">Enter your password.</span>
+          </div>
 
-<section class="form-side">
+          <div class="row-between">
+            <label class="remember">
+              <input type="checkbox" id="rememberMe" name="rememberMe">
+              Remember me
+            </label>
+            <a href="#" class="forgot" id="gotoForgot">Forgot password?</a>
+          </div>
 
-<div class="card">
+          <button type="submit" class="submit">LOG IN</button>
+        </form>
 
-<div id="loginView">
+        <div class="divider">or log in with</div>
+        <div class="social-row">
+          <button type="button" class="social-btn">Google</button>
+          <button type="button" class="social-btn">Facebook</button>
+        </div>
 
-<h2>Log in</h2>
+        <p class="footnote">Trouble logging in? <a href="#" style="color:var(--orange); text-decoration:none; font-weight:600;">Contact support</a></p>
+      </div>
 
-<p class="sub">
-New to Richie Store?
-<a href="Sign up.html">Create an account</a>
-</p>
+      <!-- FORGOT PASSWORD VIEW -->
+      <div class="forgot-view" id="forgotView">
+        <button class="back-link" id="backToLogin">← Back to log in</button>
+        <h2>Reset your password</h2>
+        <p class="sub">Enter the email on your account and we'll send you a reset link.</p>
 
-<form id="loginForm" novalidate>
+        <form id="forgotForm" novalidate>
+          <div class="field" id="field-reset-email">
+            <label for="resetEmail">Email address</label>
+            <input type="email" id="resetEmail" name="resetEmail" placeholder="you@example.com" autocomplete="email">
+            <span class="err-msg">Enter a valid email address.</span>
+          </div>
 
-<div class="field" id="field-identifier">
+          <button type="submit" class="submit">SEND RESET LINK</button>
+        </form>
+      </div>
 
-<label for="identifier">Email</label>
+      <!-- RESET SENT SUCCESS -->
+      <div class="success" id="resetSuccessView">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Check your inbox</h2>
+        <p>We've sent a password reset link to <span id="resetEmailDisplay">your email</span>. It expires in 30 minutes.</p>
+        <button class="cta" id="backToLogin2" style="border:none; cursor:pointer;">Back to log in</button>
+      </div>
 
-<input
-type="email"
-id="identifier"
-name="identifier"
-placeholder="you@example.com"
-autocomplete="username"
->
+      <!-- LOGIN SUCCESS -->
+      <div class="success" id="successView">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Welcome back!</h2>
+        <p>You're logged in to <span id="successIdentifier">your account</span>.</p>
+        <a href="Main page.html" class="cta">Go to my account</a>
+      </div>
 
-<span class="err-msg">
-Enter your email address.
-</span>
-
-</div>
-
-<div class="field" id="field-password">
-
-<label for="password">Password</label>
-
-<div class="pw-wrap">
-
-<input
-type="password"
-id="password"
-name="password"
-placeholder="Enter your password"
-autocomplete="current-password"
->
-
-<button type="button" class="pw-toggle" id="togglePassword">
-SHOW
-</button>
-
-</div>
-
-<span class="err-msg">
-Enter your password.
-</span>
-
-</div>
-
-<div class="row-between">
-
-<label class="remember">
-
-<input type="checkbox" id="rememberMe">
-
-Remember me
-
-</label>
-
-<a href="#" class="forgot" id="gotoForgot">
-Forgot password?
-</a>
-
-</div>
-
-<button type="submit" class="submit" id="loginButton">
-LOG IN
-</button>
-
-</form>
-
-<div class="divider">
-or log in with
-</div>
-
-<div class="social-row">
-
-<button type="button" class="social-btn">
-Google
-</button>
-
-<button type="button" class="social-btn">
-Facebook
-</button>
+    </div>
+  </section>
 
 </div>
-
-<p class="footnote">
-Trouble logging in?
-<a href="#" style="color:var(--orange);text-decoration:none;font-weight:600;">
-Contact support
-</a>
-</p>
-
-</div>
-
-<!-- SUCCESS -->
-
-<div class="success" id="successView">
-
-<div class="success-check">
-
-<svg viewBox="0 0 24 24" fill="none">
-<path
-d="M4 12.5L9.5 18L20 6"
-stroke="#1E8E4F"
-stroke-width="2.4"
-stroke-linecap="round"
-stroke-linejoin="round"
-/>
-</svg>
-
-</div>
-
-<h2>Welcome back!</h2>
-
-<p>
-You're successfully logged in.
-</p>
-
-<a href="Main page.html" class="cta">
-Go to my account
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+(function(){
+  const loginView = document.getElementById('loginView');
+  const forgotView = document.getElementById('forgotView');
+  const successView = document.getElementById('successView');
+  const resetSuccessView = document.getElementById('resetSuccessView');
 
-const SUPABASE_URL =
-"https://wayzbaudwhnuizcgdqtb.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8";
-
-const supabaseClient =
-supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-
-// PASSWORD SHOW / HIDE
-
-document.getElementById("togglePassword").addEventListener("click", function(){
-
-  const password =
-  document.getElementById("password");
-
-  if(password.type === "password"){
-
-    password.type = "text";
-    this.textContent = "HIDE";
-
-  }else{
-
-    password.type = "password";
-    this.textContent = "SHOW";
-
+  function showOnly(view){
+    [loginView, forgotView, successView, resetSuccessView].forEach(v => {
+      if(v === loginView || v === forgotView){
+        v.style.display = (v === view) ? 'block' : 'none';
+        v.classList.remove('show');
+        if(v === view && v === forgotView) v.classList.add('show');
+      } else {
+        v.classList.toggle('show', v === view);
+      }
+    });
   }
 
-});
+  // ---------- LOGIN FORM ----------
+  const loginForm = document.getElementById('loginForm');
+  const idField = { el: document.getElementById('identifier'), wrap: document.getElementById('field-identifier') };
+  const pwField = { el: document.getElementById('password'), wrap: document.getElementById('field-password') };
 
+  [idField, pwField].forEach(f => f.el.addEventListener('input', () => f.wrap.classList.remove('error')));
 
-// LOGIN
+  document.querySelectorAll('.pw-toggle').forEach(toggle => {
+    const target = document.getElementById(toggle.dataset.target);
 
-const loginForm =
-document.getElementById("loginForm");
-
-loginForm.addEventListener("submit", async function(e){
-
-  e.preventDefault();
-
-  const email =
-  document.getElementById("identifier").value.trim();
-
-  const password =
-  document.getElementById("password").value;
-
-  const emailField =
-  document.getElementById("field-identifier");
-
-  const passwordField =
-  document.getElementById("field-password");
-
-  const loginButton =
-  document.getElementById("loginButton");
-
-
-  // CLEAR ERRORS
-
-  emailField.classList.remove("error");
-  passwordField.classList.remove("error");
-
-
-  // VALIDATE EMAIL
-
-  const emailPattern =
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if(!emailPattern.test(email)){
-
-    emailField.classList.add("error");
-    return;
-
-  }
-
-
-  // VALIDATE PASSWORD
-
-  if(password.length < 1){
-
-    passwordField.classList.add("error");
-    return;
-
-  }
-
-
-  // BUTTON
-
-  loginButton.disabled = true;
-  loginButton.textContent = "LOGGING IN...";
-
-
-  // SUPABASE LOGIN
-
-  const { data, error } =
-  await supabaseClient.auth.signInWithPassword({
-
-    email: email,
-    password: password
-
+    toggle.addEventListener('click', () => {
+      const isPasswordVisible = target.type === 'text';
+      target.type = isPasswordVisible ? 'password' : 'text';
+      toggle.textContent = isPasswordVisible ? 'SHOW' : 'HIDE';
+      toggle.setAttribute('aria-label', isPasswordVisible ? 'Show password' : 'Hide password');
+      toggle.setAttribute('aria-pressed', String(!isPasswordVisible));
+      target.focus();
+    });
   });
 
+  loginForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    let ok = true;
 
-  if(error){
+    if(idField.el.value.trim().length < 3){ idField.wrap.classList.add('error'); ok = false; }
+    else idField.wrap.classList.remove('error');
 
-    alert(error.message);
+    if(pwField.el.value.length < 1){ pwField.wrap.classList.add('error'); ok = false; }
+    else pwField.wrap.classList.remove('error');
 
-    loginButton.disabled = false;
-    loginButton.textContent = "LOG IN";
+    if(!ok) return;
 
-    return;
+    document.getElementById('successIdentifier').textContent = idField.el.value.trim();
+    showOnly(successView);
+  });
 
-  }
+  // ---------- FORGOT PASSWORD ----------
+  document.getElementById('gotoForgot').addEventListener('click', function(e){
+    e.preventDefault();
+    showOnly(forgotView);
+  });
 
+  document.getElementById('backToLogin').addEventListener('click', function(e){
+    e.preventDefault();
+    showOnly(loginView);
+  });
 
-  // LOGIN SUCCESS
+  document.getElementById('backToLogin2').addEventListener('click', function(e){
+    e.preventDefault();
+    showOnly(loginView);
+  });
 
-  document.getElementById("loginView").style.display = "none";
+  const forgotForm = document.getElementById('forgotForm');
+  const resetEmailField = { el: document.getElementById('resetEmail'), wrap: document.getElementById('field-reset-email') };
+  resetEmailField.el.addEventListener('input', () => resetEmailField.wrap.classList.remove('error'));
 
-  document.getElementById("successView")
-  .classList.add("show");
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-});
-
-
-// FORGOT PASSWORD
-
-document.getElementById("gotoForgot")
-.addEventListener("click", async function(e){
-
-  e.preventDefault();
-
-  const email =
-  document.getElementById("identifier").value.trim();
-
-  if(!email){
-
-    alert("Enter your email address first.");
-
-    return;
-
-  }
-
-
-  const { error } =
-  await supabaseClient.auth.resetPasswordForEmail(
-    email,
-    {
-      redirectTo:
-      window.location.origin + "/login.html"
+  forgotForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validEmail(resetEmailField.el.value.trim())){
+      resetEmailField.wrap.classList.add('error');
+      return;
     }
-  );
+    resetEmailField.wrap.classList.remove('error');
+    document.getElementById('resetEmailDisplay').textContent = resetEmailField.el.value.trim();
+    showOnly(resetSuccessView);
+  });
 
-
-  if(error){
-
-    alert(error.message);
-
-  }else{
-
-    alert("Password reset email sent. Check your inbox.");
-
-  }
-
-});
-
+  // ---------- GO TO SIGNUP ----------
+  document.getElementById('gotoSignup').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('This is a demo login page — sign-up would live at your richie-store-signup.html page.');
+  });
+})();
 </script>
 
 </body>
