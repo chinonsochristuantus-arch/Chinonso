@@ -517,7 +517,7 @@
 
 </div>
 
-<script src="supabase-config.js?v=3"></script>
+<script src="supabase-config.js?v=4"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -590,10 +590,7 @@
 
     submitButton.disabled = true;
     try {
-      const supabaseClient = await window.supabaseReady;
-      if(!supabaseClient || !supabaseClient.auth) {
-        throw new Error('Supabase authentication is not initialized. Reload the page and try again.');
-      }
+      const supabaseClient = await window.getSupabaseClient();
       const { data, error } = await supabaseClient.auth.signUp({
         email: fields.email.el.value.trim(),
         password: fields.password.el.value,
