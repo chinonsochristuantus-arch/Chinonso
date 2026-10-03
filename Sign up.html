@@ -518,7 +518,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v=6"></script>
+<script src="supabase-config.js?v=7"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -591,9 +591,17 @@
 
     submitButton.disabled = true;
     try {
-      const supabaseClient = window.supabaseClient;
+      let supabaseClient = window.supabaseClient;
+      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(
+          'https://wayzbaudwhnuizcgdqtb.supabase.co',
+          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
+        );
+        window.supabaseClient = supabaseClient;
+      }
       if(!supabaseClient || !supabaseClient.auth) {
-        throw window.supabaseInitError || new Error('Supabase client failed to initialize. Check your connection and reload the page.');
+        const details = window.supabaseInitError && window.supabaseInitError.message;
+        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Sign up.html file and make sure you are online.');
       }
       const { data, error } = await supabaseClient.auth.signUp({
         email: fields.email.el.value.trim(),
