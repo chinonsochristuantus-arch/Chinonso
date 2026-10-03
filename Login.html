@@ -349,6 +349,15 @@
     margin-top:20px;
   }
 
+  .form-message{
+    display:none;
+    margin-top:12px;
+    font-size:13px;
+    line-height:1.5;
+  }
+  .form-message.show{ display:block; }
+  .form-message[data-state="error"]{ color:var(--error); }
+
   /* ---------- FORGOT PASSWORD VIEW ---------- */
   .forgot-view{ display:none; }
   .forgot-view.show{ display:block; animation: pop .25s ease; }
@@ -470,9 +479,9 @@
 
         <form id="loginForm" novalidate>
           <div class="field" id="field-identifier">
-            <label for="identifier">Email or mobile number</label>
-            <input type="text" id="identifier" name="identifier" placeholder="you@example.com" autocomplete="username">
-            <span class="err-msg">Enter your email or mobile number.</span>
+            <label for="identifier">Email address</label>
+            <input type="email" id="identifier" name="identifier" placeholder="you@example.com" autocomplete="email">
+            <span class="err-msg">Enter a valid email address.</span>
           </div>
 
           <div class="field" id="field-password">
@@ -494,6 +503,7 @@
 
           <button type="submit" class="submit">LOG IN</button>
         </form>
+        <p class="form-message" id="loginMessage" role="status" aria-live="polite"></p>
 
         <div class="divider">or log in with</div>
         <div class="social-row">
@@ -519,6 +529,7 @@
 
           <button type="submit" class="submit">SEND RESET LINK</button>
         </form>
+        <p class="form-message" id="resetMessage" role="status" aria-live="polite"></p>
       </div>
 
       <!-- RESET SENT SUCCESS -->
@@ -546,6 +557,8 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js?v=7"></script>
 <script>
 (function(){
   const loginView = document.getElementById('loginView');
@@ -569,8 +582,17 @@
   const loginForm = document.getElementById('loginForm');
   const idField = { el: document.getElementById('identifier'), wrap: document.getElementById('field-identifier') };
   const pwField = { el: document.getElementById('password'), wrap: document.getElementById('field-password') };
+  const loginMessage = document.getElementById('loginMessage');
+  const loginButton = loginForm.querySelector('button[type="submit"]');
+
+  function showMessage(element, message, state){
+    element.textContent = message;
+    element.dataset.state = state;
+    element.classList.add('show');
+  }
 
   [idField, pwField].forEach(f => f.el.addEventListener('input', () => f.wrap.classList.remove('error')));
+  idField.el.addEventListener('input', () => loginMessage.classList.remove('show'));
 
   document.querySelectorAll('.pw-toggle').forEach(toggle => {
     const target = document.getElementById(toggle.dataset.target);
@@ -585,11 +607,12 @@
     });
   });
 
-  loginForm.addEventListener('submit', function(e){
+  loginForm.addEventListener('submit', async function(e){
     e.preventDefault();
+    loginMessage.classList.remove('show');
     let ok = true;
 
-    if(idField.el.value.trim().length < 3){ idField.wrap.classList.add('error'); ok = false; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(idField.el.value.trim())){ idField.wrap.classList.add('error'); ok = false; }
     else idField.wrap.classList.remove('error');
 
     if(pwField.el.value.length < 1){ pwField.wrap.classList.add('error'); ok = false; }
@@ -597,8 +620,36 @@
 
     if(!ok) return;
 
-    document.getElementById('successIdentifier').textContent = idField.el.value.trim();
-    showOnly(successView);
+    loginButton.disabled = true;
+    try {
+      let supabaseClient = window.supabaseClient;
+      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(
+          'https://wayzbaudwhnuizcgdqtb.supabase.co',
+          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
+        );
+        window.supabaseClient = supabaseClient;
+      }
+      if(!supabaseClient || !supabaseClient.auth) {
+        const details = window.supabaseInitError && window.supabaseInitError.message;
+        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Login.html file and make sure you are online.');
+      }
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: idField.el.value.trim(),
+        password: pwField.el.value
+      });
+
+      if(error) throw error;
+      if(!data.user) throw new Error('Supabase did not return a logged-in user.');
+
+      document.getElementById('successIdentifier').textContent = data.user.email || idField.el.value.trim();
+      showOnly(successView);
+    } catch(error) {
+      console.error('Supabase login failed:', error);
+      showMessage(loginMessage, error.message || 'We could not log you in. Please check your details and try again.', 'error');
+    } finally {
+      loginButton.disabled = false;
+    }
   });
 
   // ---------- FORGOT PASSWORD ----------
@@ -619,25 +670,45 @@
 
   const forgotForm = document.getElementById('forgotForm');
   const resetEmailField = { el: document.getElementById('resetEmail'), wrap: document.getElementById('field-reset-email') };
+  const resetMessage = document.getElementById('resetMessage');
+  const resetButton = forgotForm.querySelector('button[type="submit"]');
   resetEmailField.el.addEventListener('input', () => resetEmailField.wrap.classList.remove('error'));
+  resetEmailField.el.addEventListener('input', () => resetMessage.classList.remove('show'));
 
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-  forgotForm.addEventListener('submit', function(e){
+  forgotForm.addEventListener('submit', async function(e){
     e.preventDefault();
+    resetMessage.classList.remove('show');
     if(!validEmail(resetEmailField.el.value.trim())){
       resetEmailField.wrap.classList.add('error');
       return;
     }
     resetEmailField.wrap.classList.remove('error');
-    document.getElementById('resetEmailDisplay').textContent = resetEmailField.el.value.trim();
-    showOnly(resetSuccessView);
-  });
-
-  // ---------- GO TO SIGNUP ----------
-  document.getElementById('gotoSignup').addEventListener('click', function(e){
-    e.preventDefault();
-    alert('This is a demo login page — sign-up would live at your richie-store-signup.html page.');
+    resetButton.disabled = true;
+    try {
+      let supabaseClient = window.supabaseClient;
+      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(
+          'https://wayzbaudwhnuizcgdqtb.supabase.co',
+          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
+        );
+        window.supabaseClient = supabaseClient;
+      }
+      if(!supabaseClient || !supabaseClient.auth) {
+        const details = window.supabaseInitError && window.supabaseInitError.message;
+        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Login.html file and make sure you are online.');
+      }
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(resetEmailField.el.value.trim());
+      if(error) throw error;
+      document.getElementById('resetEmailDisplay').textContent = resetEmailField.el.value.trim();
+      showOnly(resetSuccessView);
+    } catch(error) {
+      console.error('Supabase password reset failed:', error);
+      showMessage(resetMessage, error.message || 'We could not send a reset link. Please try again.', 'error');
+    } finally {
+      resetButton.disabled = false;
+    }
   });
 })();
 </script>
