@@ -517,7 +517,8 @@
 
 </div>
 
-<script src="supabase-config.js?v=5"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js?v=6"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -590,9 +591,9 @@
 
     submitButton.disabled = true;
     try {
-      const supabaseClient = await window.supabaseReady;
+      const supabaseClient = window.supabaseClient;
       if(!supabaseClient || !supabaseClient.auth) {
-        throw new Error('Supabase client failed to initialize. Check your connection and reload the page.');
+        throw window.supabaseInitError || new Error('Supabase client failed to initialize. Check your connection and reload the page.');
       }
       const { data, error } = await supabaseClient.auth.signUp({
         email: fields.email.el.value.trim(),
