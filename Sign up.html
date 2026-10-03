@@ -517,7 +517,6 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script>
   (function(){
@@ -589,14 +588,10 @@
 
     if(!ok) return;
 
-    if(!window.supabaseClient){
-      showMessage('The authentication service is unavailable. Please try again later.', 'error');
-      return;
-    }
-
     submitButton.disabled = true;
     try {
-      const { data, error } = await window.supabaseClient.auth.signUp({
+      const supabaseClient = await window.supabaseReady;
+      const { data, error } = await supabaseClient.auth.signUp({
         email: fields.email.el.value.trim(),
         password: fields.password.el.value,
         options: {
