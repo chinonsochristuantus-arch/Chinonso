@@ -340,6 +340,15 @@
     margin-top:20px;
   }
 
+  .form-message{
+    display:none;
+    margin-top:12px;
+    font-size:13px;
+    line-height:1.5;
+  }
+  .form-message.show{ display:block; }
+  .form-message[data-state="error"]{ color:var(--error); }
+
   /* ---------- SUCCESS ---------- */
   .success{
     display:none;
@@ -483,6 +492,7 @@
 
           <button type="submit" class="submit">SIGN UP</button>
         </form>
+        <p class="form-message" id="signupMessage" role="status" aria-live="polite"></p>
 
         <div class="divider">or sign up with</div>
         <div class="social-row">
@@ -498,7 +508,7 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h2>Welcome, <span id="successName">friend</span>!</h2>
-        <p>Your Richie Store account is ready. We've sent a confirmation to <span id="successEmail">your inbox</span>.</p>
+        <p id="signupSuccessMessage">Your Richie Store account has been created. Check your inbox to confirm your email before logging in.</p>
         <a href="Main page.html" class="cta">Start shopping</a>
       </div>
 
@@ -507,9 +517,13 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
+  const submitButton = form.querySelector('button[type="submit"]');
+  const signupMessage = document.getElementById('signupMessage');
   const fields = {
     fullName: { el: document.getElementById('fullName'), wrap: document.getElementById('field-name') },
     email: { el: document.getElementById('email'), wrap: document.getElementById('field-email') },
@@ -522,6 +536,12 @@
 
   function setError(field, hasError){
     field.wrap.classList.toggle('error', hasError);
+  }
+
+  function showMessage(message, state){
+    signupMessage.textContent = message;
+    signupMessage.dataset.state = state;
+    signupMessage.classList.add('show');
   }
 
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
@@ -543,8 +563,9 @@
     });
   });
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
+    signupMessage.classList.remove('show');
     let ok = true;
 
     if(fields.fullName.el.value.trim().length < 2){ setError(fields.fullName, true); ok = false; }
@@ -568,17 +589,39 @@
 
     if(!ok) return;
 
-    const firstName = fields.fullName.el.value.trim().split(' ')[0];
-    document.getElementById('successName').textContent = firstName;
-    document.getElementById('successEmail').textContent = fields.email.el.value.trim();
+    if(!window.supabaseClient){
+      showMessage('The authentication service is unavailable. Please try again later.', 'error');
+      return;
+    }
 
-    document.getElementById('formView').style.display = 'none';
-    document.getElementById('successView').classList.add('show');
-  });
+    submitButton.disabled = true;
+    try {
+      const { data, error } = await window.supabaseClient.auth.signUp({
+        email: fields.email.el.value.trim(),
+        password: fields.password.el.value,
+        options: {
+          data: {
+            full_name: fields.fullName.el.value.trim(),
+            phone: fields.phone.el.value.trim()
+          }
+        }
+      });
 
-  document.getElementById('gotoSignin').addEventListener('click', function(e){
-    e.preventDefault();
-    alert('This is a demo signup page — sign-in would live at your own /login route.');
+      if(error) throw error;
+      if(!data.user) throw new Error('Supabase did not return a registered user.');
+
+      document.getElementById('successName').textContent = fields.fullName.el.value.trim().split(' ')[0];
+      document.getElementById('signupSuccessMessage').textContent = data.session
+        ? 'Your Richie Store account is ready. You can now log in.'
+        : 'Your Richie Store account has been created. Check your inbox to confirm your email before logging in.';
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('successView').classList.add('show');
+    } catch(error) {
+      console.error('Supabase signup failed:', error);
+      showMessage(error.message || 'We could not create your account. Please try again.', 'error');
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 })();
 
