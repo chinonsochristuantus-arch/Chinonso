@@ -517,7 +517,7 @@
 
 </div>
 
-<script src="supabase-config.js"></script>
+<script src="supabase-config.js?v=2"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -590,7 +590,7 @@
 
     submitButton.disabled = true;
     try {
-      const supabaseClient = await window.supabaseReady;
+      const supabaseClient = await window.getSupabaseClient();
       const { data, error } = await supabaseClient.auth.signUp({
         email: fields.email.el.value.trim(),
         password: fields.password.el.value,
