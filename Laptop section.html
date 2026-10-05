@@ -1020,11 +1020,44 @@
 
   checkoutBtn.addEventListener('click', () => {
     if(checkoutBtn.disabled) return;
-    openModal();
-    for(const id in cart) delete cart[id];
-    renderCart();
-    render();
-    closeDrawerFn();
+    const whatsappNumber = '2349159214310';
+    const formatNaira = new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      maximumFractionDigits: 0
+    });
+    const lines = ['Hello Richie Store, I would like to place this order:'];
+    let subtotal = 0;
+
+    Object.keys(cart).forEach(id => {
+      const product = products.find(item => item.id === id);
+      const quantity = cart[id];
+      if(!product || !Number.isInteger(quantity) || quantity < 1) return;
+
+      const lineTotal = product.price * quantity;
+      subtotal += lineTotal;
+      lines.push(
+        '',
+        `${product.brand || product.category || ''} ${product.name}`.trim(),
+        `Details: ${product.storage || product.size || 'Standard'}`,
+        `Quantity: ${quantity}`,
+        `Unit price: ${formatNaira.format(product.price)}`,
+        `Line total: ${formatNaira.format(lineTotal)}`
+      );
+    });
+
+    if(subtotal <= 0) return;
+
+    lines.push(
+      '',
+      `Order subtotal: ${formatNaira.format(subtotal)}`,
+      '',
+      'Please confirm availability, delivery cost, and payment details.',
+      'My name, phone number, and delivery address:'
+    );
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.location.assign(whatsappUrl);
   });
 
   document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -1034,6 +1067,5 @@
   renderCart();
 })();
 </script>
-
 </body>
 </html>
