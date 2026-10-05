@@ -1020,11 +1020,7 @@
 
   checkoutBtn.addEventListener('click', () => {
     if(checkoutBtn.disabled) return;
-    openModal();
-    for(const id in cart) delete cart[id];
-    renderCart();
-    render();
-    closeDrawerFn();
+    window.sendCartToWhatsApp(products, cart);
   });
 
   document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -1034,6 +1030,7 @@
   renderCart();
 })();
 </script>
+<script src="whatsapp-checkout.js"></script>
 
 </body>
 </html>
