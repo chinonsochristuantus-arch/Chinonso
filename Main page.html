@@ -56,7 +56,7 @@
              <h1 class="">UP TO</h1>
                 <h1 class=""> 60% OFF</h1>
                 <p class="">Everything you love</p>
-      <div style="padding-left: 40px;">   <a href="">  <button class="bdb">SHOP NOW > </button> </a></div> 
+      <div style="padding-left: 40px;">   <a href="#all-products">  <button class="bdb">SHOP NOW &gt;</button> </a></div>
 
         </div>
      </section> 
@@ -81,7 +81,7 @@
         
             <div class="card">
                 <img
-                src="Samsung galaxy.jpeg" style="height: 150px;">
+                src="my pictures/Samsung galaxy.jpeg" style="height: 150px;">
 
                 <div class="card-content">
                 <h3>Samsung </h3>
@@ -95,7 +95,7 @@
 
               <div class="card">
                 <img 
-                src="laptop2 jpg.jpeg">
+                src="my pictures/laptop2 jpg.jpeg">
 
 
                 <div class="card-content">
@@ -110,7 +110,7 @@
 
             <div class="card">
                 <img 
-                src="electronics.jpg.jpeg">
+                src="my pictures/electronics.jpg.jpeg">
 
                 <div style="padding-top: 20px;">
                 <h3>Speaker</h3>
@@ -124,7 +124,7 @@
 
             <div class="card">
                 <img 
-                src="fashion jpg.jpeg">
+                src="my pictures/fashion jpg.jpeg">
 
                 <div style="padding-top: 20px;">
                 <h3>Fashion</h3>
@@ -138,7 +138,7 @@
 
             <div class="card">
                 <img 
-                src="Headphone.jpg.jpeg">
+                src="my pictures/Headphone.jpg.jpeg">
                 <div style="padding-top: 20px;">
                 <h3>Headphone</h3>
                 <p>-Blue Headphone</p>
@@ -150,7 +150,7 @@
 
             <div class="card">
                 <img 
-                src="shoe.jpg.jpeg">
+                src="my pictures/shoe.jpg.jpeg">
 
                 <div style="padding-top: 2px;">
                 <h3>Shoe</h3>
@@ -164,7 +164,7 @@
 
             <div class="card">
                 <img 
-                src="car.jpg.jpeg">
+                src="my pictures/car.jpg.jpeg">
 
                 <div style="padding-top: 27px;">
                 <h3>Car</h3>
@@ -179,7 +179,7 @@
             
             
             <div class="card">
-                <img src="Tv.jpg.jpeg">
+                <img src="my pictures/Tv.jpg.jpeg">
 
                 <div style="padding-top: 20px;">
                 <h3>Smart Tv</h3>
@@ -192,7 +192,7 @@
             </div>
 
             <div class="card">
-                <img src="fridge.jp.jpeg">
+                <img src="my pictures/fridge.jp.jpeg">
 
                 <div style="padding-top: 45px;">
                 <h3>Thermocool</h3>    
@@ -204,7 +204,7 @@
             </div>
 
             <div class="card">
-                <img src="Gen.jpg.jpeg">
+                <img src="my pictures/Gen.jpg.jpeg">
                 <div style="padding-top: 7px;">
              <h3>Generator</h3>
              <p>- High Quality Generator</p>
@@ -217,6 +217,15 @@
             </div> 
             
         </div>
+    </section>
+
+    <section class="flash all-products" id="all-products">
+        <div class="flash-header">
+            <h2>All Products</h2>
+            <span id="allProductsCount">72 products</span>
+        </div>
+        <div class="all-products-grid" id="allProductsGrid"></div>
+        <p class="no-products" id="noProductsMessage" hidden>No products found. Try another search.</p>
     </section>
 
     <footer class="site-footer">
@@ -236,14 +245,15 @@
 
             <div class="footer-column">
                 <h2>Customer care</h2>
+                <a href="Sign up.html">👤 Register</a>
                 <a href="#flash-sales">🔥 Flash sales</a>
                 <a href="#top">⬆️ Back to top</a>
             </div>
 
             <div class="footer-column">
                 <h2>Sell on Richie Store</h2>
-                <a href="help.html">❔ Help</a>
-                <a href="help.html">📦 Track order</a>
+                <a href="#">❔ Help</a>
+                <a href="#">📦 Track order</a>
             </div>
 
             <div class="footer-column">
@@ -275,38 +285,84 @@
 
         <div class="footer-bottom">© 2026 Richie Store. All rights reserved.</div>
     </footer>
+    <script src="catalog-products.js"></script>
     <script>
         (() => {
             const searchForm = document.getElementById('searchForm');
             const searchInput = document.getElementById('productSearch');
-            const productGrid = document.querySelector('.flash-products');
-            const productCards = [...productGrid.querySelectorAll('.card')];
-            const emptyMessage = document.createElement('p');
+            const productGrid = document.getElementById('allProductsGrid');
+            const productCount = document.getElementById('allProductsCount');
+            const emptyMessage = document.getElementById('noProductsMessage');
+            const products = window.storeProducts;
+            const formatPrice = new Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+                maximumFractionDigits: 0
+            });
 
-            emptyMessage.textContent = 'No products found. Try another search.';
-            emptyMessage.hidden = true;
-            emptyMessage.style.gridColumn = '1 / -1';
-            emptyMessage.style.padding = '24px 0';
-            productGrid.appendChild(emptyMessage);
+            if (!Array.isArray(products)) {
+                throw new Error('The product catalog did not load.');
+            }
+
+            products.forEach((product) => {
+                const card = document.createElement('article');
+                card.className = 'card catalog-card';
+
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.name;
+                image.loading = 'lazy';
+
+                const content = document.createElement('div');
+                content.className = 'catalog-card-content';
+
+                const category = document.createElement('p');
+                category.className = 'catalog-category';
+                category.textContent = product.category;
+
+                const name = document.createElement('h3');
+                name.textContent = [product.brand, product.name].filter(Boolean).join(' ');
+
+                const details = document.createElement('p');
+                details.className = 'catalog-details';
+                details.textContent = product.details || 'See product details';
+
+                const price = document.createElement('p');
+                price.className = 'catalog-price';
+                price.textContent = formatPrice.format(product.price);
+
+                const link = document.createElement('a');
+                link.className = 'catalog-link';
+                link.href = product.section;
+                link.textContent = 'View product';
+                link.setAttribute('aria-label', `View ${name.textContent}`);
+
+                content.append(category, name, details, price, link);
+                card.append(image, content);
+                productGrid.appendChild(card);
+            });
 
             const filterProducts = () => {
                 const query = searchInput.value.trim().toLowerCase();
                 let visibleProducts = 0;
+                const productCards = [...productGrid.querySelectorAll('.catalog-card')];
 
                 productCards.forEach((card) => {
                     const matches = query === '' || card.textContent.toLowerCase().includes(query);
-                    card.hidden = !matches;
+                    card.classList.toggle('hidden', !matches);
                     if (matches) {
                         visibleProducts += 1;
                     }
                 });
 
+                productCount.textContent = `${visibleProducts} product${visibleProducts === 1 ? '' : 's'}`;
                 emptyMessage.hidden = visibleProducts !== 0;
             };
 
             searchInput.addEventListener('input', filterProducts);
             searchForm.addEventListener('submit', (event) => {
                 event.preventDefault();
+                document.getElementById('all-products').scrollIntoView({ behavior: 'smooth' });
                 filterProducts();
             });
         })();
