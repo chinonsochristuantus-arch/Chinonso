@@ -631,7 +631,20 @@
     max-width:380px;
     width:100%;
     padding:32px 28px;
-    text-align:center;
+    text-align:left;
+  }
+  .checkout-form{display:grid;gap:12px}
+  .checkout-form h2,.checkout-form p{margin:0;text-align:center}
+  .checkout-form label{display:grid;gap:5px;font-size:13px;font-weight:600}
+  .checkout-form input,.checkout-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--gray-300);border-radius:6px;padding:10px;font:inherit}
+  .checkout-form .checkout-error{color:#b42318;font-size:13px}
+  .checkout-form .checkout-error:empty{display:none}
+  .checkout-form .checkout-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .checkout-form .checkout-cancel{background:var(--gray-200);color:var(--gray-900)}
+  .checkout-form .checkout-cancel:hover{background:var(--gray-300)}
+  .checkout-form button:disabled{opacity:.65;cursor:wait}
+  @media(max-width:480px){
+    .modal{max-height:90vh;overflow-y:auto;padding:24px 18px}
   }
 
   .modal .check{
@@ -760,12 +773,21 @@
 <!-- CHECKOUT SUCCESS MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="check">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <h2>Order placed!</h2>
-    <p id="modalText">Thanks for shopping with Richie Store. We'll send order updates to your email.</p>
-    <button id="modalClose">Continue shopping</button>
+    <form class="checkout-form" id="checkoutDetailsForm">
+      <h2>Delivery details</h2>
+      <p>Please enter your details so we can prepare your WhatsApp order.</p>
+      <label for="checkoutName">Full name</label>
+      <input id="checkoutName" name="fullName" type="text" autocomplete="name" required minlength="2" maxlength="120">
+      <label for="checkoutPhone">Phone number</label>
+      <input id="checkoutPhone" name="phone" type="tel" autocomplete="tel" required minlength="7" maxlength="24">
+      <label for="checkoutAddress">Delivery address</label>
+      <textarea id="checkoutAddress" name="address" autocomplete="street-address" rows="3" required minlength="5" maxlength="600"></textarea>
+      <p class="checkout-error" id="checkoutError" role="alert"></p>
+      <div class="checkout-actions">
+        <button class="checkout-cancel" id="modalClose" type="button">Cancel</button>
+        <button type="submit">Continue to WhatsApp</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -1031,16 +1053,26 @@
 
   // ---------- CHECKOUT MODAL ----------
   const modalOverlay = document.getElementById('modalOverlay');
-  const modalText = document.getElementById('modalText');
 
   function openModal(){
-    const itemCount = Object.values(cart).reduce((a,b) => a+b, 0);
-    modalText.textContent = `Thanks for shopping with Richie Store. Your order of ${itemCount} item${itemCount === 1 ? '' : 's'} (${subtotalVal.textContent}) has been placed. We'll send order updates to your email.`;
+    document.getElementById('checkoutError').textContent = '';
     modalOverlay.classList.add('open');
   }
   function closeModal(){ modalOverlay.classList.remove('open'); }
 
-  checkoutBtn.addEventListener('click', () => {
+  checkoutBtn.addEventListener('click', openModal);
+  document.getElementById('checkoutDetailsForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if(!form.reportValidity()) return;
+    const details = new FormData(form);
+    const fullName = String(details.get('fullName')).trim();
+    const phone = String(details.get('phone')).trim();
+    const address = String(details.get('address')).trim();
+    if(fullName.length < 2 || phone.replace(/\D/g, '').length < 7 || address.length < 5){
+      document.getElementById('checkoutError').textContent = 'Please enter a valid name, phone number, and delivery address.';
+      return;
+    }
     if(checkoutBtn.disabled) return;
     const whatsappNumber = '2349159214310';
     const formatNaira = new Intl.NumberFormat('en-NG', {
@@ -1074,9 +1106,13 @@
       '',
       `Order subtotal: ${formatNaira.format(subtotal)}`,
       '',
-      'Please confirm availability, delivery cost, and payment details.',
-      'My name, phone number, and delivery address:'
+      `Customer name: ${fullName}`,
+      `Phone number: ${phone}`,
+      `Delivery address: ${address}`,
+      '',
+      'Please confirm availability, delivery cost, and payment details.'
     );
+
 
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
     window.location.assign(whatsappUrl);
