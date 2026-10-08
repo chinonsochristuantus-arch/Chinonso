@@ -735,7 +735,6 @@
         </select>
       </div>
     </div>
-
     <div class="grid" id="productGrid"></div>
   </main>
 
@@ -745,7 +744,22 @@
   <div class="footer-content">
     <div class="footer-about"><a class="footer-logo" href="#top">Richie Store</a><p>Quality products, easy shopping, and fast delivery.</p></div>
     <nav class="footer-column" aria-label="Shop categories"><h2>Shop</h2><a href="Phone section.html">📱 Phones</a><a href="Laptop section.html">💻 Laptops</a><a href="Cloth section.html">👕 Fashion</a><a href="speaker.html">🔊 Speakers</a><a href="headphones.html">🎧 Headphones</a><a href="Wristwatch.html">⌚ Watches</a><a href="car.html">🚗 Cars</a><a href="Tv.html">📺 TVs</a><a href="Generator.html">⚡ Generators</a></nav>
-    <nav class="footer-column" aria-label="Customer care"><h2>Customer care</h2><a href="help.html">❔ Help</a><a href="Main page.html">🏠 Home</a></nav>
+    <nav class="footer-column" aria-label="Customer care"><h2>Customer care</h2><a>👤Welcome</a><a href="help.html">❔ Help</a><a href="Main page.html">🏠 Home</a></nav>
+      <div class="footer-column">
+                <h2>Follow us</h2>
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon facebook-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.023 4.388 11.027 10.125 11.927v-8.43H7.078v-3.497h3.047V9.407c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.49 0-1.956.93-1.956 1.884v2.26h3.328l-.532 3.497h-2.796V24C19.612 23.1 24 18.096 24 12.073Z"/></svg>
+                    Facebook
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="instagram-gradient-store" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffdc80"/><stop offset="50%" stop-color="#f77737"/><stop offset="100%" stop-color="#c13584"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="url(#instagram-gradient-store)" stroke-width="2.5"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#e1306c" stroke-width="2.3"/><circle cx="18" cy="6.5" r="1.4" fill="#f77737"/></svg>
+                    Instagram
+                </a>
+                <a href="https://www.tiktok.com/@richie0426?_r=1&_t=ZS-9AAQnTCXE6G" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon tiktok-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#25f4ee" d="M12.7 2h3.2c.2 2.2 1.4 4.2 3.4 5.3 1 .6 2.1.9 3.2.9v3.3a10.7 10.7 0 0 1-6.5-2.2v7.2c0 4.1-3.3 7.5-7.5 7.5S1 20.6 1 16.5 4.4 9 8.5 9c.4 0 .9 0 1.3.1v3.5a4.1 4.1 0 1 0 2.9 3.9V2Z" transform="translate(-1 -1)"/></svg>
+                    TikTok
+                </a>
+            </div>
     <div class="footer-column footer-contact"><h2>Contact</h2><p>Address: Enugu, Awgu, Mgbowo</p><a href="tel:+2349159214310">📞 +234 915 921 4310</a><a href="https://wa.me/2349159214310" target="_blank" rel="noopener noreferrer">WhatsApp us</a></div>
   </div>
   <div class="footer-bottom">© 2026 Richie Store. All rights reserved.</div>
@@ -795,46 +809,37 @@
 (function(){
   // ---------- PRODUCT DATA ----------
   const products = [
-    {
-      id:'f1', category:"Women's Dresses", name:'Ankara Print Monostrap Dress', size:'S – XL',
-      price:18500, originalPrice:24000, rating:4.5, reviews:412,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Ankara%20monostrap%20dress.jpg?width=500'
-    },
-    {
-      id:'f2', category:"Men's Footwear", name:'Classic White Leather Sneakers', size:'40 – 46',
-      price:65000, originalPrice:85000, rating:4.7, reviews:836,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nike%20AF1.JPG?width=500'
-    },
-    {
-      id:'f3', category:"Women's Bags", name:'Structured Leather Handbag', size:'One size',
-      price:32000, originalPrice:45000, rating:4.4, reviews:298,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leather%20handbag%20by%20Les%20cuirs%20d%27Agathe%20(DSC07738).jpg?width=500'
-    },
-    {
-      id:'f4', category:'Watches', name:"Men's Classic Analog Watch", size:'One size',
-      price:22000, originalPrice:30000, rating:4.6, reviews:521,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Casio.%205071%20MTD%201060.%20Face.jpg?width=500'
-    },
-    {
-      id:'f5', category:'Accessories', name:'Aviator Sunglasses, Unisex', size:'One size',
-      price:15000, originalPrice:22000, rating:4.3, reviews:674,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Ray-Ban%20Aviator%20sunglasses.jpg?width=500'
-    },
-    {
-      id:'f6', category:"Men's Tops", name:'Classic Fit Polo Shirt', size:'S – XXL',
-      price:9500, originalPrice:13500, rating:4.4, reviews:947,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Polo%20shirt.jpg?width=500'
-    },
-    {
-      id:'f7', category:"Women's Footwear", name:'Pointed-Toe Stiletto Heels', size:'36 – 41',
-      price:21000, originalPrice:28000, rating:4.2, reviews:365,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/High%20Heels.JPG?width=500'
-    },
-    {
-      id:'f8', category:'Jackets', name:'Classic Denim Jacket, Unisex', size:'S – XL',
-      price:26500, originalPrice:35000, rating:4.5, reviews:289,
-      img:'https://commons.wikimedia.org/wiki/Special:FilePath/Denim%20Jacket%20(51079649933).jpg?width=500'
-    }
+    { id:'f1', category:'Baggy Jeans', name:'Nigeria Street Baggy Jeans - Light Wash', size:'30 – 40', price:32000, originalPrice:42000, rating:4.7, reviews:384, img:'https://images.unsplash.com/photo-1714143136372-ddaf8b606da7?auto=format&fit=crop&w=600&q=80' },
+    { id:'f2', category:'Baggy Jeans', name:'Wide-Leg Baggy Jeans - Dark Wash', size:'30 – 40', price:34500, originalPrice:45000, rating:4.6, reviews:276, img:'https://images.unsplash.com/photo-1714143164072-7646ef5cb24d?auto=format&fit=crop&w=600&q=80' },
+    { id:'f3', category:'Baggy Jeans', name:'Oversized Blue Denim Jeans', size:'30 – 40', price:33500, originalPrice:44000, rating:4.5, reviews:318, img:'https://images.unsplash.com/photo-1637069585336-827b298fe84a?auto=format&fit=crop&w=600&q=80' },
+    { id:'f4', category:'Baggy Jeans', name:'Relaxed Fit Baggy Jeans - Faded Blue', size:'30 – 40', price:35000, originalPrice:46000, rating:4.8, reviews:192, img:'https://images.unsplash.com/photo-1721637286605-ae9be19d681f?auto=format&fit=crop&w=600&q=80' },
+    { id:'f5', category:'Baggy Jeans', name:'Streetwear Cargo Baggy Jeans', size:'30 – 40', price:38500, originalPrice:50000, rating:4.5, reviews:241, img:'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?auto=format&fit=crop&w=600&q=80' },
+    { id:'f6', category:'Baggy Jeans', name:'Vintage Wash Loose Jeans', size:'30 – 40', price:36000, originalPrice:47000, rating:4.7, reviews:207, img:'https://images.unsplash.com/photo-1713880453396-aa0493e308ec?auto=format&fit=crop&w=600&q=80' },
+    { id:'f7', category:'Baggy Jeans', name:'Black Baggy Denim Jeans', size:'30 – 40', price:35500, originalPrice:46500, rating:4.6, reviews:183, img:'https://images.unsplash.com/photo-1718252540511-e958742e4165?auto=format&fit=crop&w=600&q=80' },
+    { id:'f8', category:'Baggy Jeans', name:'Loose Fit Carpenter Jeans', size:'30 – 40', price:39500, originalPrice:51500, rating:4.6, reviews:229, img:'https://images.unsplash.com/photo-1714143136367-7bb68f3f0669?auto=format&fit=crop&w=600&q=80' },
+    { id:'f9', category:'Hoodies', name:'Oversized Pullover Hoodie - Black', size:'M – XXL', price:29500, originalPrice:39000, rating:4.5, reviews:164, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80' },
+    { id:'f10', category:'Hoodies', name:'Heavyweight Fleece Hoodie - Grey', size:'M – XXL', price:32500, originalPrice:42500, rating:4.7, reviews:142, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&sat=-30' },
+    { id:'f11', category:'Hoodies', name:'Graphic Print Street Hoodie', size:'M – XXL', price:33500, originalPrice:44000, rating:4.6, reviews:156, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&sat=20' },
+    { id:'f12', category:'Hoodies', name:'Relaxed-Fit Zip-Up Hoodie', size:'M – XXL', price:34500, originalPrice:45000, rating:4.5, reviews:291, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&crop=entropy' },
+    { id:'f13', category:'Hoodies', name:'Two-Tone Everyday Hoodie', size:'M – XXL', price:31500, originalPrice:41500, rating:4.7, reviews:173, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&sat=35' },
+    { id:'f14', category:'Hoodies', name:'Minimal Pullover Hoodie - Cream', size:'M – XXL', price:28500, originalPrice:37500, rating:4.8, reviews:218, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&sat=-10' },
+    { id:'f15', category:'Hoodies', name:'Oversized Logo Hoodie - Navy', size:'M – XXL', price:35500, originalPrice:46500, rating:4.6, reviews:264, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&crop=edges' },
+    { id:'f16', category:'Hoodies', name:'Soft Cotton Hooded Sweatshirt', size:'M – XXL', price:30500, originalPrice:40000, rating:4.7, reviews:337, img:'https://plus.unsplash.com/premium_photo-1673356302169-574db56b52cd?auto=format&fit=crop&w=600&q=80&sat=-45' },
+    { id:'f17', category:'Crop Tops', name:'Ribbed Short Crop Top - White', size:'S – XL', price:12000, originalPrice:16000, rating:4.7, reviews:286, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80' },
+    { id:'f18', category:'Crop Tops', name:'Everyday Cotton Crop Top - Black', size:'S – XL', price:11500, originalPrice:15000, rating:4.5, reviews:197, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80&sat=-50' },
+    { id:'f19', category:'Crop Tops', name:'Relaxed Graphic Crop Tee', size:'S – XL', price:14500, originalPrice:19000, rating:4.8, reviews:208, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80&sat=20' },
+    { id:'f20', category:'Crop Tops', name:'Long-Sleeve Fitted Crop Top', size:'S – XL', price:15500, originalPrice:20500, rating:4.6, reviews:181, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80&crop=entropy' },
+    { id:'f21', category:'Crop Tops', name:'Sporty Cropped Tee - Pink', size:'S – XL', price:13000, originalPrice:17000, rating:4.7, reviews:302, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80&sat=45' },
+    { id:'f22', category:'Crop Tops', name:'Boxy Short Crop Shirt', size:'S – XL', price:16500, originalPrice:21500, rating:4.6, reviews:169, img:'https://plus.unsplash.com/premium_photo-1755164637630-533b8a8a9f07?auto=format&fit=crop&w=600&q=80&crop=edges' },
+    { id:'f23', category:'Shirts', name:'Folded Cotton Crew-Neck Shirt - White', size:'M – XXL', price:12500, originalPrice:16500, rating:4.5, reviews:133, img:'https://plus.unsplash.com/premium_photo-1673356301514-2cad91907f74?auto=format&fit=crop&w=600&q=80' },
+    { id:'f24', category:'Shirts', name:'Folded Oversized Shirt - Orange', size:'M – XXL', price:15500, originalPrice:20500, rating:4.8, reviews:244, img:'https://plus.unsplash.com/premium_photo-1755164640242-a756910295e7?auto=format&fit=crop&w=600&q=80' },
+    { id:'f25', category:'Shirts', name:'Linen Button-Up Shirt - Blue', size:'M – XXL', price:24500, originalPrice:32000, rating:4.7, reviews:213, img:'https://images.unsplash.com/photo-1740711152088-88a009e877bb?auto=format&fit=crop&w=600&q=80' },
+    { id:'f26', category:'Shirts', name:'Casual Hanging Shirt - Green', size:'M – XXL', price:22500, originalPrice:29500, rating:4.6, reviews:196, img:'https://plus.unsplash.com/premium_photo-1747763002786-a7a4e92138b1?auto=format&fit=crop&w=600&q=80' },
+    { id:'f27', category:'Shirts', name:'Folded Relaxed-Fit Shirt - Red', size:'M – XXL', price:17500, originalPrice:23000, rating:4.7, reviews:355, img:'https://plus.unsplash.com/premium_photo-1755164640242-a756910295e7?auto=format&fit=crop&w=600&q=80&sat=30' },
+    { id:'f28', category:'Shirts', name:'Soft Cotton Graphic Shirt', size:'M – XXL', price:16500, originalPrice:21500, rating:4.5, reviews:148, img:'https://plus.unsplash.com/premium_photo-1673356301514-2cad91907f74?auto=format&fit=crop&w=600&q=80&sat=-25' },
+    { id:'f29', category:'Shirts', name:'Everyday Boxy Fit Shirt - Rust', size:'M – XXL', price:18500, originalPrice:24500, rating:4.8, reviews:267, img:'https://plus.unsplash.com/premium_photo-1755164640242-a756910295e7?auto=format&fit=crop&w=600&q=80&crop=entropy' },
+    { id:'f30', category:'Shirts', name:'Easy-Wear Short-Sleeve Shirt', size:'M – XXL', price:19500, originalPrice:25500, rating:4.7, reviews:154, img:'https://plus.unsplash.com/premium_photo-1673356301514-2cad91907f74?auto=format&fit=crop&w=600&q=80&sat=20' },
+
   ];
 
   const categories = [...new Set(products.map(p => p.category))].sort();
@@ -946,7 +951,7 @@
       const inCart = !!cart[p.id];
       card.innerHTML = `
         <span class="badge">-${discount}%</span>
-        <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+        <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="eager" decoding="async"></div>
         <div class="category-label">${p.category}</div>
         <div class="name">${p.name}</div>
         <div class="rating-row"><span class="stars">${starString(p.rating)}</span><span class="reviews">(${p.reviews})</span></div>
