@@ -275,6 +275,48 @@
   }
 
   .terms a{ color:var(--gray-900); text-decoration:underline; }
+  .terms a:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+
+  .legal-dialog{
+    width:min(680px, calc(100% - 32px));
+    max-height:min(80vh, 760px);
+    margin:auto;
+    padding:0;
+    border:0;
+    border-radius:12px;
+    color:var(--gray-900);
+    box-shadow:0 20px 60px rgba(15,23,36,0.28);
+  }
+  .legal-dialog::backdrop{ background:rgba(15,23,36,0.62); }
+  .legal-header{
+    position:sticky;
+    top:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 24px;
+    background:var(--white);
+    border-bottom:1px solid var(--gray-300);
+  }
+  .legal-header h2{ font-family:'Poppins',sans-serif; font-size:20px; }
+  .legal-close{
+    min-width:44px;
+    min-height:44px;
+    border:0;
+    border-radius:6px;
+    background:var(--gray-100);
+    color:var(--gray-900);
+    font-size:24px;
+    cursor:pointer;
+  }
+  .legal-close:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  .legal-content{ padding:22px 24px 28px; }
+  .legal-content h3{ margin:20px 0 6px; font-size:15px; }
+  .legal-content h3:first-of-type{ margin-top:0; }
+  .legal-content p,.legal-content li{ font-size:13.5px; line-height:1.65; color:var(--gray-600); }
+  .legal-content ul{ padding-left:20px; margin-top:8px; }
+  .legal-content li+li{ margin-top:5px; }
 
   button.submit{
     margin-top:6px;
@@ -486,7 +528,7 @@
 
           <label class="terms">
             <input type="checkbox" id="agree" name="agree">
-            <span>I agree to Richie Store's <a href="#">Terms of Use</a> and <a href="#">Privacy Notice</a>.</span>
+            <span>I agree to Richie Store's <a href="#terms-of-use" data-legal-target="terms">Terms of Use</a> and <a href="#privacy-notice" data-legal-target="privacy">Privacy Notice</a>.</span>
           </label>
           <span class="err-msg" id="agree-err" style="display:none;">Please accept the terms to continue.</span>
 
@@ -517,6 +559,54 @@
 
 </div>
 
+<dialog class="legal-dialog" id="legalDialog" aria-labelledby="legalDialogTitle">
+  <div class="legal-header">
+    <h2 id="legalDialogTitle">Terms of Use</h2>
+    <button class="legal-close" id="legalDialogClose" type="button" aria-label="Close terms and privacy details">&times;</button>
+  </div>
+  <div class="legal-content">
+    <section id="terms-of-use" data-legal-section="terms">
+      <p>Last updated: 12 October 2026</p>
+      <p>These Terms of Use explain the basic rules for using the Richie Store website and placing an order. By creating an account, you confirm that you have read and agree to these terms.</p>
+
+      <h3>1. Accounts</h3>
+      <p>You must be at least 18 years old to create an account. Provide accurate details, keep your sign-in credentials private, and contact us promptly if you believe someone has used your account without permission. You are responsible for activity carried out through your account, except where applicable law provides otherwise.</p>
+
+      <h3>2. Products, prices, and availability</h3>
+      <p>We aim to keep listings accurate, but product descriptions, images, prices, stock, and availability may change or contain errors. Some vehicle listings and images are illustrative; confirm the actual item, condition, specifications, price, and availability with us before paying. A product shown online is not a guarantee that it is in stock.</p>
+
+      <h3>3. Orders and payment</h3>
+      <p>Submitting an order is a request to buy, not confirmation that we have accepted it. We will confirm acceptance, final price, payment method, and delivery arrangements with you. We may decline or cancel an order if an item is unavailable or a listing contains a material error; if payment has already been collected, we will arrange an appropriate refund in line with applicable law.</p>
+
+      <h3>4. Delivery, returns, and promotions</h3>
+      <p>Delivery estimates, applicable charges, and any return or exchange conditions will be provided for the order or product. Your rights under applicable consumer-protection law are not limited by these terms. Promotions, including delivery or return offers, apply only as stated in the relevant offer and order confirmation.</p>
+
+      <h3>5. Acceptable use</h3>
+      <p>Do not misuse the website, interfere with its operation, attempt unauthorized access, submit false order or account information, or use the service for unlawful activity.</p>
+
+      <h3>6. Website content and availability</h3>
+      <p>Store text, branding, and other website content may not be copied or used commercially without permission. We work to keep the site available and accurate, but cannot promise uninterrupted or error-free service.</p>
+
+      <h3>7. Changes and contact</h3>
+      <p>We may update these terms by publishing a revised version here. For questions about an order or these terms, contact Richie Store at 09159214310 or visit us in Enugu, Awgu, Mgbowo.</p>
+    </section>
+
+    <section id="privacy-notice" data-legal-section="privacy" hidden>
+      <p>Last updated: 12 October 2026</p>
+      <p>This notice explains the information requested when you create a Richie Store account.</p>
+
+      <h3>Information used for your account</h3>
+      <p>The sign-up form asks for your name, email address, phone number, and password. Account authentication is provided through Supabase. We use the details you provide to create and manage your account and to contact you about account or order matters.</p>
+
+      <h3>Your choices</h3>
+      <p>Do not enter another person's information without permission. To ask a question or request help with your account information, contact Richie Store at 09159214310 or visit us in Enugu, Awgu, Mgbowo. We will handle requests subject to applicable law and any information needed to verify your request.</p>
+
+      <h3>Updates</h3>
+      <p>We may update this notice when our account practices change. The current version will be available on this sign-up page.</p>
+    </section>
+  </div>
+</dialog>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js?v=7"></script>
 <script>
@@ -533,6 +623,29 @@
   };
   const agree = document.getElementById('agree');
   const agreeErr = document.getElementById('agree-err');
+  const legalDialog = document.getElementById('legalDialog');
+  const legalDialogTitle = document.getElementById('legalDialogTitle');
+  const legalDialogClose = document.getElementById('legalDialogClose');
+
+  document.querySelectorAll('[data-legal-target]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      const section = link.dataset.legalTarget;
+      document.querySelectorAll('[data-legal-section]').forEach(content => {
+        content.hidden = content.dataset.legalSection !== section;
+      });
+      legalDialogTitle.textContent = section === 'privacy' ? 'Privacy Notice' : 'Terms of Use';
+      legalDialog.showModal();
+      legalDialogClose.focus();
+    });
+  });
+  legalDialogClose.addEventListener('click', () => legalDialog.close());
+  legalDialog.addEventListener('keydown', event => {
+    if(event.key === 'Escape'){
+      event.preventDefault();
+      legalDialog.close();
+    }
+  });
 
   function setError(field, hasError){
     field.wrap.classList.toggle('error', hasError);
