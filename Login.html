@@ -461,7 +461,6 @@
     <p>Your saved items, order history, and member pricing are all waiting for you.</p>
 
     <ul class="promo-features">
-      <li><span class="icon">📦</span> Track orders in real time</li>
       <li><span class="icon">❤️</span> Access your saved favorites</li>
       <li><span class="icon">🏷️</span> Member-only prices, every day</li>
       <li><span class="icon">⚡</span> Faster checkout, every order</li>
@@ -538,7 +537,8 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#1E8E4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h2>Check your inbox</h2>
-        <p>We've sent a password reset link to <span id="resetEmailDisplay">your email</span>. It expires in 30 minutes.</p>
+        <p>If an account exists for <span id="resetEmailDisplay">your email</span>, a password reset link is on its way. Check your inbox and spam folder.</p>
+        <button class="back-link" id="sendAnotherReset" type="button">Send another reset link</button>
         <button class="cta" id="backToLogin2" style="border:none; cursor:pointer;">Back to log in</button>
       </div>
 
@@ -557,8 +557,35 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v=7"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  const config = {
+    apiKey: 'AIzaSyBN4fzTJ36FTrJ6hqL2z7_eaYfymyi2Wd0',
+    authDomain: 'richie-store-d3bbf.firebaseapp.com',
+    projectId: 'richie-store-d3bbf',
+    storageBucket: 'richie-store-d3bbf.firebasestorage.app',
+    messagingSenderId: '784624996649',
+    appId: '1:784624996649:web:69914d062668bfc542a738'
+  };
+  window.firebaseClient = null;
+  window.firebaseInitError = null;
+  if(!window.firebase || typeof window.firebase.initializeApp !== 'function'){
+    window.firebaseInitError = new Error('Firebase SDK did not load. Check your internet connection or browser content blockers.');
+    console.error('Firebase initialization failed:', window.firebaseInitError);
+    return;
+  }
+  try {
+    const app = window.firebase.apps.length ? window.firebase.app() : window.firebase.initializeApp(config);
+    window.firebaseClient = { app, auth: app.auth(), db: app.firestore() };
+  } catch(error) {
+    window.firebaseInitError = error;
+    console.error('Firebase initialization failed:', error);
+  }
+})();
+</script>
 <script>
 (function(){
   const loginView = document.getElementById('loginView');
@@ -622,30 +649,25 @@
 
     loginButton.disabled = true;
     try {
-      let supabaseClient = window.supabaseClient;
-      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
-        supabaseClient = window.supabase.createClient(
-          'https://wayzbaudwhnuizcgdqtb.supabase.co',
-          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
-        );
-        window.supabaseClient = supabaseClient;
+      const firebaseClient = window.firebaseClient;
+      if(!firebaseClient || !firebaseClient.auth) {
+        const details = window.firebaseInitError && window.firebaseInitError.message;
+        throw new Error(details || 'Firebase is unavailable on this page. Check your internet connection and Firebase configuration.');
       }
-      if(!supabaseClient || !supabaseClient.auth) {
-        const details = window.supabaseInitError && window.supabaseInitError.message;
-        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Login.html file and make sure you are online.');
-      }
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: idField.el.value.trim(),
-        password: pwField.el.value
-      });
+      const persistence = document.getElementById('rememberMe').checked
+        ? firebase.auth.Auth.Persistence.LOCAL
+        : firebase.auth.Auth.Persistence.SESSION;
+      await firebaseClient.auth.setPersistence(persistence);
+      const credential = await firebaseClient.auth.signInWithEmailAndPassword(
+        idField.el.value.trim(),
+        pwField.el.value
+      );
+      if(!credential.user) throw new Error('Firebase did not return a logged-in user.');
 
-      if(error) throw error;
-      if(!data.user) throw new Error('Supabase did not return a logged-in user.');
-
-      document.getElementById('successIdentifier').textContent = data.user.email || idField.el.value.trim();
+      document.getElementById('successIdentifier').textContent = credential.user.email || idField.el.value.trim();
       showOnly(successView);
     } catch(error) {
-      console.error('Supabase login failed:', error);
+      console.error('Firebase login failed:', error);
       showMessage(loginMessage, error.message || 'We could not log you in. Please check your details and try again.', 'error');
     } finally {
       loginButton.disabled = false;
@@ -655,7 +677,11 @@
   // ---------- FORGOT PASSWORD ----------
   document.getElementById('gotoForgot').addEventListener('click', function(e){
     e.preventDefault();
+    const loginEmail = idField.el.value.trim();
+    if(loginEmail) resetEmailField.el.value = loginEmail;
+    resetMessage.classList.remove('show');
     showOnly(forgotView);
+    resetEmailField.el.focus();
   });
 
   document.getElementById('backToLogin').addEventListener('click', function(e){
@@ -666,48 +692,82 @@
   document.getElementById('backToLogin2').addEventListener('click', function(e){
     e.preventDefault();
     showOnly(loginView);
+    idField.el.focus();
   });
 
   const forgotForm = document.getElementById('forgotForm');
   const resetEmailField = { el: document.getElementById('resetEmail'), wrap: document.getElementById('field-reset-email') };
   const resetMessage = document.getElementById('resetMessage');
   const resetButton = forgotForm.querySelector('button[type="submit"]');
-  resetEmailField.el.addEventListener('input', () => resetEmailField.wrap.classList.remove('error'));
-  resetEmailField.el.addEventListener('input', () => resetMessage.classList.remove('show'));
+  const resetButtonText = resetButton.textContent;
+  resetEmailField.el.addEventListener('input', () => {
+    resetEmailField.wrap.classList.remove('error');
+    resetMessage.classList.remove('show');
+  });
 
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function passwordResetErrorMessage(error){
+    switch(error.code){
+      case 'auth/invalid-email':
+        return 'That email address is not valid. Check it and try again.';
+      case 'auth/operation-not-allowed':
+        return 'Password reset is not enabled for this Firebase project. Enable Email/Password sign-in in Firebase Authentication.';
+      case 'auth/too-many-requests':
+        return 'Too many reset requests were made. Please wait a while before trying again.';
+      case 'auth/network-request-failed':
+        return 'We could not reach Firebase. Check your internet connection and try again.';
+      case 'auth/unauthorized-continue-uri':
+      case 'auth/invalid-continue-uri':
+        return 'Firebase rejected the reset link settings. Check the authorized domains in Firebase Authentication.';
+      default:
+        return 'We could not request a password reset right now. Please try again later.';
+    }
+  }
+
+  function showResetConfirmation(email){
+    document.getElementById('resetEmailDisplay').textContent = email;
+    showOnly(resetSuccessView);
+  }
+
+  document.getElementById('sendAnotherReset').addEventListener('click', function(){
+    resetMessage.classList.remove('show');
+    showOnly(forgotView);
+    resetEmailField.el.focus();
+  });
 
   forgotForm.addEventListener('submit', async function(e){
     e.preventDefault();
     resetMessage.classList.remove('show');
-    if(!validEmail(resetEmailField.el.value.trim())){
+    const email = resetEmailField.el.value.trim();
+    if(!validEmail(email)){
       resetEmailField.wrap.classList.add('error');
+      resetEmailField.el.focus();
       return;
     }
     resetEmailField.wrap.classList.remove('error');
     resetButton.disabled = true;
+    resetButton.setAttribute('aria-busy', 'true');
+    resetButton.textContent = 'SENDING...';
     try {
-      let supabaseClient = window.supabaseClient;
-      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
-        supabaseClient = window.supabase.createClient(
-          'https://wayzbaudwhnuizcgdqtb.supabase.co',
-          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
-        );
-        window.supabaseClient = supabaseClient;
+      const firebaseClient = window.firebaseClient;
+      if(!firebaseClient || !firebaseClient.auth) {
+        const details = window.firebaseInitError && window.firebaseInitError.message;
+        throw new Error(details || 'Firebase is unavailable on this page. Check your internet connection and Firebase configuration.');
       }
-      if(!supabaseClient || !supabaseClient.auth) {
-        const details = window.supabaseInitError && window.supabaseInitError.message;
-        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Login.html file and make sure you are online.');
-      }
-      const { error } = await supabaseClient.auth.resetPasswordForEmail(resetEmailField.el.value.trim());
-      if(error) throw error;
-      document.getElementById('resetEmailDisplay').textContent = resetEmailField.el.value.trim();
-      showOnly(resetSuccessView);
+      await firebaseClient.auth.sendPasswordResetEmail(email);
+      showResetConfirmation(email);
     } catch(error) {
-      console.error('Supabase password reset failed:', error);
-      showMessage(resetMessage, error.message || 'We could not send a reset link. Please try again.', 'error');
+      console.error('Firebase password reset failed:', error);
+      if(error.code === 'auth/user-not-found'){
+        showResetConfirmation(email);
+        return;
+      }
+      showMessage(resetMessage, error.code ? passwordResetErrorMessage(error) : (error.message || passwordResetErrorMessage({})), 'error');
     } finally {
       resetButton.disabled = false;
+      resetButton.removeAttribute('aria-busy');
+      resetButton.textContent = resetButtonText;
     }
   });
 })();
