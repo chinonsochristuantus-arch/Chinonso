@@ -736,10 +736,22 @@
         const details = window.firebaseInitError && window.firebaseInitError.message;
         throw new Error(details || 'Firebase is unavailable on this page. Check your internet connection and Firebase configuration.');
       }
-      const credential = await firebaseClient.auth.createUserWithEmailAndPassword(
-        fields.email.el.value.trim(),
-        fields.password.el.value
-      );
+      const email = fields.email.el.value.trim();
+      let credential;
+      let isNewAccount = true;
+      try {
+        credential = await firebaseClient.auth.createUserWithEmailAndPassword(
+          email,
+          fields.password.el.value
+        );
+      } catch(error) {
+        if(error.code !== 'auth/email-already-in-use') throw error;
+        isNewAccount = false;
+        credential = await firebaseClient.auth.signInWithEmailAndPassword(
+          email,
+          fields.password.el.value
+        );
+      }
       const user = credential.user;
       if(!user) throw new Error('Firebase did not return a registered user.');
 
@@ -747,16 +759,22 @@
       const phone = fields.phone.el.value.trim();
       await user.updateProfile({ displayName: fullName });
       try {
-        await firebaseClient.db.collection('users').doc(user.uid).set({
+        const profile = {
           uid: user.uid,
           full_name: fullName,
           phone,
-          email: user.email,
-          created_at: firebase.firestore.FieldValue.serverTimestamp()
-        });
+          email: user.email
+        };
+        if(isNewAccount) {
+          profile.created_at = firebase.firestore.FieldValue.serverTimestamp();
+        } else {
+          profile.updated_at = firebase.firestore.FieldValue.serverTimestamp();
+        }
+        await firebaseClient.db.collection('users').doc(user.uid).set(profile, { merge: true });
       } catch(profileError) {
         console.error('Firebase profile save failed:', profileError);
-        throw new Error('Your account was created, but we could not save your profile details. Please contact support before trying to sign up again.');
+        const code = profileError.code || 'unknown';
+        throw new Error(`Your Firebase account is ready, but Firestore could not save the profile (${code}). Make sure Firestore is created and the rules in firestore.rules are published for project richie-store-d3bbf. Keep this page open, then submit again with the same email and password after fixing Firestore; the existing account will be used.`);
       }
 
       document.getElementById('successName').textContent = fullName.split(' ')[0];
