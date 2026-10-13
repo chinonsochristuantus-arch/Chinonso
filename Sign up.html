@@ -610,7 +610,32 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js?v=3" onerror="window.firebaseInitError = new Error('Could not load firebase-config.js. Keep it in the same folder as this page, then reload.')"></script>
+<script>
+(function(){
+  const config = {
+    apiKey: 'AIzaSyBN4fzTJ36FTrJ6hqL2z7_eaYfymyi2Wd0',
+    authDomain: 'richie-store-d3bbf.firebaseapp.com',
+    projectId: 'richie-store-d3bbf',
+    storageBucket: 'richie-store-d3bbf.firebasestorage.app',
+    messagingSenderId: '784624996649',
+    appId: '1:784624996649:web:69914d062668bfc542a738'
+  };
+  window.firebaseClient = null;
+  window.firebaseInitError = null;
+  if(!window.firebase || typeof window.firebase.initializeApp !== 'function'){
+    window.firebaseInitError = new Error('Firebase SDK did not load. Check your internet connection or browser content blockers.');
+    console.error('Firebase initialization failed:', window.firebaseInitError);
+    return;
+  }
+  try {
+    const app = window.firebase.apps.length ? window.firebase.app() : window.firebase.initializeApp(config);
+    window.firebaseClient = { app, auth: app.auth(), db: app.firestore() };
+  } catch(error) {
+    window.firebaseInitError = error;
+    console.error('Firebase initialization failed:', error);
+  }
+})();
+</script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
