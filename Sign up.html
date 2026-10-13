@@ -596,7 +596,7 @@
       <p>This notice explains the information requested when you create a Richie Store account.</p>
 
       <h3>Information used for your account</h3>
-      <p>The sign-up form asks for your name, email address, phone number, and password. Account authentication is provided through Supabase. We use the details you provide to create and manage your account and to contact you about account or order matters.</p>
+      <p>The sign-up form asks for your name, email address, phone number, and password. Account authentication is provided through Firebase Authentication, and your name, email address, and phone number are stored in Cloud Firestore to create and manage your account and contact you about account or order matters. Passwords are managed by Firebase Authentication and are not stored in your profile document.</p>
 
       <h3>Your choices</h3>
       <p>Do not enter another person's information without permission. To ask a question or request help with your account information, contact Richie Store at 09159214310 or visit us in Enugu, Awgu, Mgbowo. We will handle requests subject to applicable law and any information needed to verify your request.</p>
@@ -607,8 +607,10 @@
   </div>
 </dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v=7"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=2"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -704,40 +706,40 @@
 
     submitButton.disabled = true;
     try {
-      let supabaseClient = window.supabaseClient;
-      if((!supabaseClient || !supabaseClient.auth) && window.supabase && typeof window.supabase.createClient === 'function') {
-        supabaseClient = window.supabase.createClient(
-          'https://wayzbaudwhnuizcgdqtb.supabase.co',
-          'sb_publishable_Xg99uQw0aiE4WZnva9P3jA_PhV0tNd8'
-        );
-        window.supabaseClient = supabaseClient;
+      const firebaseClient = window.firebaseClient;
+      if(!firebaseClient || !firebaseClient.auth || !firebaseClient.db) {
+        const details = window.firebaseInitError && window.firebaseInitError.message;
+        throw new Error(details || 'Firebase is unavailable on this page. Check your internet connection and Firebase configuration.');
       }
-      if(!supabaseClient || !supabaseClient.auth) {
-        const details = window.supabaseInitError && window.supabaseInitError.message;
-        throw new Error(details || 'Supabase SDK is unavailable in this page. Open the saved Sign up.html file and make sure you are online.');
+      const credential = await firebaseClient.auth.createUserWithEmailAndPassword(
+        fields.email.el.value.trim(),
+        fields.password.el.value
+      );
+      const user = credential.user;
+      if(!user) throw new Error('Firebase did not return a registered user.');
+
+      const fullName = fields.fullName.el.value.trim();
+      const phone = fields.phone.el.value.trim();
+      await user.updateProfile({ displayName: fullName });
+      try {
+        await firebaseClient.db.collection('users').doc(user.uid).set({
+          uid: user.uid,
+          full_name: fullName,
+          phone,
+          email: user.email,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch(profileError) {
+        console.error('Firebase profile save failed:', profileError);
+        throw new Error('Your account was created, but we could not save your profile details. Please contact support before trying to sign up again.');
       }
-      const { data, error } = await supabaseClient.auth.signUp({
-        email: fields.email.el.value.trim(),
-        password: fields.password.el.value,
-        options: {
-          data: {
-            full_name: fields.fullName.el.value.trim(),
-            phone: fields.phone.el.value.trim()
-          }
-        }
-      });
 
-      if(error) throw error;
-      if(!data.user) throw new Error('Supabase did not return a registered user.');
-
-      document.getElementById('successName').textContent = fields.fullName.el.value.trim().split(' ')[0];
-      document.getElementById('signupSuccessMessage').textContent = data.session
-        ? 'Your Richie Store account is ready. You can now log in.'
-        : 'Your Richie Store account has been created. Check your inbox to confirm your email before logging in.';
+      document.getElementById('successName').textContent = fullName.split(' ')[0];
+      document.getElementById('signupSuccessMessage').textContent = 'Your Richie Store account is ready. You can now log in.';
       document.getElementById('formView').style.display = 'none';
       document.getElementById('successView').classList.add('show');
     } catch(error) {
-      console.error('Supabase signup failed:', error);
+      console.error('Firebase signup failed:', error);
       showMessage(error.message || 'We could not create your account. Please try again.', 'error');
     } finally {
       submitButton.disabled = false;
