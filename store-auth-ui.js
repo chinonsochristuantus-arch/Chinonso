@@ -20,6 +20,9 @@
   }
 
   function accountLink(){
+    const account = document.getElementById('accountLink');
+    if(account) return account;
+
     const topActions = document.querySelector('.top-actions');
     if(topActions){
       let link = topActions.querySelector('.top-link');
