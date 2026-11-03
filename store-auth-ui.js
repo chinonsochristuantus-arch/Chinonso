@@ -39,7 +39,7 @@
 
   async function initialize(){
     const currentPage = decodeURIComponent(window.location.pathname.split('/').pop() || '').toLowerCase();
-    if(currentPage === 'richie online store.html') return;
+    if(currentPage === 'richie online store.html' || currentPage === 'richie store.html') return;
 
     if(!window.firebase){
       await loadScript(firebaseSdkBase + 'firebase-app-compat.js');
