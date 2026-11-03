@@ -417,6 +417,41 @@
         }
 
         @media (max-width: 620px) {
+            header {
+                align-items: center;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            header .logo {
+                flex: 0 1 auto;
+                min-width: 0;
+                font-size: clamp(18px, 5.2vw, 28px);
+                line-height: 1.1;
+                white-space: nowrap;
+            }
+
+            header .actions {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                flex: 0 1 auto;
+                min-width: 0;
+                max-width: 55%;
+                margin-left: auto;
+            }
+
+            header .actions #accountLink {
+                max-width: 100%;
+                min-height: 0 !important;
+                padding: 4px 0 !important;
+                font-size: clamp(12px, 3.6vw, 16px) !important;
+                line-height: 1.2;
+                text-align: right;
+                white-space: normal !important;
+                overflow-wrap: anywhere;
+            }
+
             .help-shell {
                 padding-left: 12px;
                 padding-right: 12px;
