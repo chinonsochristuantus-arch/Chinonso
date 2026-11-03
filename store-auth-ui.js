@@ -62,7 +62,7 @@
       link.title = displayName;
       link.setAttribute('aria-label', `Signed in as ${displayName}`);
       if(link.closest('.actions')){
-        link.style.cssText = 'display:inline-flex;align-items:center;max-width:240px;min-height:40px;padding:8px 12px;border-radius:8px;background:#f68b1e;color:#fff;font-size:16px;font-weight:700;overflow-wrap:anywhere;';
+        link.style.cssText = 'display:inline-flex;align-items:center;max-width:240px;min-height:40px;padding:8px 12px;border-radius:8px;background:transparent;color:#333;font-size:16px;font-weight:700;overflow-wrap:anywhere;';
       }
     });
   }
