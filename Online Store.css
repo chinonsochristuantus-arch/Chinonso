@@ -82,6 +82,20 @@ button {
 .Search {
     position: relative;
     z-index: 5;
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+}
+
+.Search input,
+.Search button {
+    box-sizing: border-box;
+    height: 48px;
+}
+
+.Search button {
+    align-self: stretch;
+    height: 48px !important;
 }
 
 .actions a {
@@ -232,6 +246,84 @@ aside li.active-cat a {
     margin-top: 10px;
     justify-content: flex-start;
     justify-content: space-between;
+}
+
+.all-products {
+    scroll-margin-top: 24px;
+}
+
+.all-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin-top: 16px;
+}
+
+.catalog-card {
+    width: auto;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 7%);
+}
+
+.catalog-card img {
+    display: block;
+    width: 100%;
+    height: 170px;
+    padding: 10px;
+    object-fit: contain;
+}
+
+.catalog-card-content {
+    padding: 12px;
+    text-align: left;
+}
+
+.catalog-card .catalog-category,
+.catalog-card .catalog-details {
+    margin: 0 0 8px;
+    color: #666;
+    font-size: 13px;
+}
+
+.catalog-card .catalog-category {
+    color: #f68b1e;
+    font-weight: 700;
+}
+
+.catalog-card h3 {
+    min-height: 42px;
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.catalog-card .catalog-price {
+    margin: 0 0 12px;
+    color: #f68b1e;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.catalog-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background: #f68b1e;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.catalog-link:hover {
+    background: #d9720d;
+}
+
+.no-products {
+    padding: 24px 0;
 }
 
 .card {
@@ -512,7 +604,7 @@ span {
 
 .footer-content {
     display: grid;
-    grid-template-columns: 2fr repeat(3, 1fr);
+    grid-template-columns: 2fr repeat(5, minmax(0, 1fr));
     gap: 32px;
     max-width: 1200px;
     margin: 0 auto;
@@ -547,6 +639,31 @@ span {
 .footer-column a {
     color: #ccc;
     text-decoration: none;
+}
+
+.social-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    vertical-align: middle;
+}
+
+.footer-contact .whatsapp-icon {
+    display: none;
+}
+
+.facebook-icon {
+    fill: #1877f2;
+}
+
+.whatsapp-icon {
+    fill: #25d366;
+}
+
+.footer-contact p {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.5;
 }
 
 .footer-column a:hover {
@@ -613,6 +730,7 @@ body {
     .right-box .box {
         flex: 1;
     }
+
 }
 
 @media (max-width: 760px) {
@@ -751,6 +869,11 @@ body {
         gap: 16px 10px;
     }
 
+    .all-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 8px;
+    }
+
     .card {
         width: auto;
         min-width: 0;
@@ -787,6 +910,14 @@ body {
     }
 
     .footer-about {
+        grid-column: 1 / -1;
+    }
+
+    .footer-social {
+        padding-left: 0;
+    }
+
+    .footer-contact {
         grid-column: 1 / -1;
     }
 }
