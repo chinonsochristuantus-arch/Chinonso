@@ -60,11 +60,16 @@
       if(!user) return;
       const emailName = user.email ? user.email.split('@')[0] : '';
       const displayName = (user.displayName || emailName || 'Account').trim();
-      link.textContent = `Hi, ${displayName}`;
+      const greeting = `Hi, ${displayName}`;
+      link.textContent = link.id === 'accountLink'
+        ? `🧑‍💼 ${greeting}`
+        : greeting;
       link.href = 'Main page.html';
       link.title = displayName;
       link.setAttribute('aria-label', `Signed in as ${displayName}`);
-      if(link.closest('.actions')){
+      if(link.id === 'accountLink'){
+        link.style.cssText = 'display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;color:#333;font-size:16px;font-weight:700;text-decoration:none;white-space:nowrap;';
+      } else if(link.closest('.actions')){
         link.style.cssText = 'display:inline-flex;align-items:center;max-width:240px;min-height:40px;padding:8px 12px;border-radius:8px;background:transparent;color:#333;font-size:16px;font-weight:700;overflow-wrap:anywhere;';
       }
     });
