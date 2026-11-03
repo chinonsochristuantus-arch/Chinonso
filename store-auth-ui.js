@@ -57,7 +57,7 @@
       if(!user) return;
       const emailName = user.email ? user.email.split('@')[0] : '';
       const displayName = (user.displayName || emailName || 'Account').trim();
-      link.textContent = `🧑‍💼 ${displayName}`;
+      link.textContent = `🧑‍💼 Hi, ${displayName}`;
       link.href = 'Main page.html';
       link.title = displayName;
       link.setAttribute('aria-label', `Signed in as ${displayName}`);
