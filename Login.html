@@ -341,6 +341,7 @@
   }
 
   .social-btn:hover{ border-color:var(--gray-900); background:var(--gray-100); }
+  .social-btn:disabled{ opacity:.65; cursor:wait; }
 
   .footnote{
     text-align:center;
@@ -442,6 +443,7 @@
     .card{ padding:28px 20px; }
   }
 </style>
+<link rel="stylesheet" href="laptop-responsive.css?v=6">
 </head>
 <body>
 
@@ -504,10 +506,9 @@
         </form>
         <p class="form-message" id="loginMessage" role="status" aria-live="polite"></p>
 
-        <div class="divider">or log in with</div>
+        <div class="divider">or continue with</div>
         <div class="social-row">
-          <button type="button" class="social-btn">Google</button>
-          <button type="button" class="social-btn">Facebook</button>
+          <button type="button" class="social-btn" data-social-provider="google">Continue with Google</button>
         </div>
 
         <p class="footnote">Trouble logging in? <a href="#" style="color:var(--orange); text-decoration:none; font-weight:600;">Contact support</a></p>
@@ -586,6 +587,7 @@
   }
 })();
 </script>
+<script src="store-social-auth.js"></script>
 <script>
 (function(){
   const loginView = document.getElementById('loginView');
@@ -611,6 +613,7 @@
   const pwField = { el: document.getElementById('password'), wrap: document.getElementById('field-password') };
   const loginMessage = document.getElementById('loginMessage');
   const loginButton = loginForm.querySelector('button[type="submit"]');
+  const socialButtons = document.querySelectorAll('[data-social-provider]');
 
   function showMessage(element, message, state){
     element.textContent = message;
@@ -620,6 +623,38 @@
 
   [idField, pwField].forEach(f => f.el.addEventListener('input', () => f.wrap.classList.remove('error')));
   idField.el.addEventListener('input', () => loginMessage.classList.remove('show'));
+
+  socialButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      loginMessage.classList.remove('show');
+      socialButtons.forEach(item => {
+        item.disabled = true;
+        item.setAttribute('aria-busy', 'true');
+      });
+      try {
+        const client = window.firebaseClient;
+        if(!client || !client.auth){
+          const details = window.firebaseInitError && window.firebaseInitError.message;
+          throw new Error(details || 'Firebase is unavailable. Check your internet connection and Firebase configuration.');
+        }
+        const persistence = document.getElementById('rememberMe').checked
+          ? firebase.auth.Auth.Persistence.LOCAL
+          : firebase.auth.Auth.Persistence.SESSION;
+        await client.auth.setPersistence(persistence);
+        const result = await window.storeGoogleAuth();
+        document.getElementById('successIdentifier').textContent =
+          result.user.email || result.fullName;
+        showOnly(successView);
+      } catch(error) {
+        showMessage(loginMessage, error.message || 'We could not log you in. Please try again.', 'error');
+      } finally {
+        socialButtons.forEach(item => {
+          item.disabled = false;
+          item.removeAttribute('aria-busy');
+        });
+      }
+    });
+  });
 
   document.querySelectorAll('.pw-toggle').forEach(toggle => {
     const target = document.getElementById(toggle.dataset.target);
