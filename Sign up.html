@@ -374,6 +374,7 @@
   }
 
   .social-btn:hover{ border-color:var(--gray-900); background:var(--gray-100); }
+  .social-btn:disabled{ opacity:.65; cursor:wait; }
 
   .footnote{
     text-align:center;
@@ -455,6 +456,7 @@
     .card{ padding:28px 20px; }
   }
 </style>
+<link rel="stylesheet" href="laptop-responsive.css?v=6">
 </head>
 <body>
 
@@ -536,10 +538,9 @@
         </form>
         <p class="form-message" id="signupMessage" role="status" aria-live="polite"></p>
 
-        <div class="divider">or sign up with</div>
+        <div class="divider">or continue with</div>
         <div class="social-row">
-          <button type="button" class="social-btn">Google</button>
-          <button type="button" class="social-btn">Facebook</button>
+          <button type="button" class="social-btn" data-social-provider="google">Continue with Google</button>
         </div>
 
         <p class="footnote">By signing up, you confirm you're 18 or older.</p>
@@ -636,6 +637,7 @@
   }
 })();
 </script>
+<script src="store-social-auth.js"></script>
 <script>
   (function(){
   const form = document.getElementById('signupForm');
@@ -653,6 +655,7 @@
   const legalDialog = document.getElementById('legalDialog');
   const legalDialogTitle = document.getElementById('legalDialogTitle');
   const legalDialogClose = document.getElementById('legalDialogClose');
+  const socialButtons = document.querySelectorAll('[data-social-provider]');
 
   document.querySelectorAll('[data-legal-target]').forEach(link => {
     link.addEventListener('click', event => {
@@ -683,6 +686,36 @@
     signupMessage.dataset.state = state;
     signupMessage.classList.add('show');
   }
+
+  socialButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      signupMessage.classList.remove('show');
+      if(!agree.checked){
+        agreeErr.style.display = 'block';
+        agree.focus();
+        return;
+      }
+      agreeErr.style.display = 'none';
+      socialButtons.forEach(item => {
+        item.disabled = true;
+        item.setAttribute('aria-busy', 'true');
+      });
+      try {
+        const result = await window.storeGoogleAuth();
+        document.getElementById('successName').textContent = result.fullName.split(' ')[0];
+        document.getElementById('signupSuccessMessage').textContent = 'Your Richie Store account is ready. You can now shop.';
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('successView').classList.add('show');
+      } catch(error) {
+        showMessage(error.message || 'We could not create your account. Please try again.', 'error');
+      } finally {
+        socialButtons.forEach(item => {
+          item.disabled = false;
+          item.removeAttribute('aria-busy');
+        });
+      }
+    });
+  });
 
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
   function validPhone(v){ return /^[0-9+\s-]{7,15}$/.test(v.trim()); }
